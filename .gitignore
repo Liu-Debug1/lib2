@@ -1,0 +1,17 @@
+# Obsidian 配置
+.obsidian/
+.trash/
+
+# 图片附件（二进制大文件，不进入版本管理）
+图片/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 临时文件
+*.tmp
+*.bak
+*.ps1
+*.bat
