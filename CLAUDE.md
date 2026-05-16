@@ -14,7 +14,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 目录 | 用途 |
 |------|------|
 | `AI/` | Claude Code 使用指南、API Key 配置 |
-| `嵌入式/` | 嵌入式学习笔记（C/C++、STM32外设、模块资料、硬件） |
+| `嵌入式/` | 嵌入式学习笔记（STM32外设、模块资料、硬件） |
+| `嵌入式/C&C++/` | C/C++ 语法、数据结构与算法笔记 |
 | `自动车窗系统软硬件设计/` | 毕业论文核心区（文献总览、流程记录） |
 | `收件箱/` | 临时/待整理笔记 |
 | `图片/` | 笔记附件图片（gitignore 排除） |
@@ -30,7 +31,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 能用 Markdown 表格表达的信息优先用表格，替代信息类图片
 - 合并重复描述，删除冗余内容
 - Mubu 导出残留的 LaTeX+纯文本公式拼贴修复为干净 LaTeX
-- 标题编号使用 `obsidian-titiled` skill 规范（H2=一/二/三，H3=X.Y，H4=X.Y.Z）
+- 同类内容使用一致的章节模板（如各容器按"创建 → 核心操作 → 遍历"组织）
+- 分散的编号列表碎片转为结构化格式（表格、代码块）
+- 整理时顺手修正原文笔误（术语、拼写）
+- 缺失的对照信息适当补充（如有序/无序容器对比表）
+- Obsidian Callout 用于注意事项（`> [!warning]`）和补充说明（`> [!NOTE]`）
+- 标题编号使用 `obsidian-titiled` skill 规范：
+  - H2：一、二、三...（中文数字）
+  - H3：X.Y（X 为 H2 序号，Y 为 H3 自身序号，如 2.1）
+  - H4：X.Y.Z（如 2.1.1）
 
 ### 图片处理
 

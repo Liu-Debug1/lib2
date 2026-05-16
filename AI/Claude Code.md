@@ -55,7 +55,7 @@
 | 绝对路径 | 使用绝对路径引用文件，避免歧义 |
 | `> ` 引用 | 用 `> ` 引用之前的消息，Claude 优先关注 |
 
-> 跳过所有权限弹窗：`claude --dangerously-skip-permissions`（仅当前会话生效）
+> 跳过所有权限弹窗：`claude  --dangerously-skip-permissions`（仅当前会话生效）
 
 ## 五、最佳实践
 
