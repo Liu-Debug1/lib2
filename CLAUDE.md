@@ -59,6 +59,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 论文涉及的硬件平台：STM32F103C8T6、INA219、TB6612、HC-05 蓝牙、ASR-PRO 语音模块、DHT11 温湿度传感器
 
+## Skill 管理
+
+`AI/ClaudeCodeSkills库详情.md` 是全局和个人 Skill 库的完整清单，有变更时自动更新。
+
 ## Obsidian 语法
 
 笔记使用 Obsidian Flavored Markdown：

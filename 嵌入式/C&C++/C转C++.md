@@ -53,14 +53,16 @@ int main(void) {
 
 ### 1.2 头文件
 
-C++ 头文件去掉了 `.h`，加前缀 `c`：
+- C++引用C的头文件时可以去掉`.h`，加前缀 `c`：`#include <cstdio>`
+- 可按照原来的`.h`方式: `#include <stdio.h>`
+- ***自己的文件***仍然需要`.h`方式: `#include "stdio.h"`
 
-| C | C++ |
-|:--|:---|
-| `#include <stdio.h>` | `#include <cstdio>` |
+| C                     | C++                  |
+| :-------------------- | :------------------- |
+| `#include <stdio.h>`  | `#include <cstdio>`  |
 | `#include <string.h>` | `#include <cstring>` |
 | `#include <stdlib.h>` | `#include <cstdlib>` |
-| `#include <math.h>` | `#include <cmath>` |
+| `#include <math.h>`   | `#include <cmath>`   |
 
 ---
 
@@ -182,25 +184,32 @@ struct Point {
 
 ### 1.8 & 引用
 
-引用是变量的别名，像普通变量一样使用，不需要取地址 `&` 和 `*` 解引用：
-
+#### 1.8.1c++中`&`有两层含义
+  1. 取地址
+  2. 引用
+	- 省去了取地址 `&` 然后在 `*` 解引用的过程。直接传变量即可，内部自动取地址+解引用
+	- 利用`const`进行访问可以只传值不修改
+	- 引用必须初始化，这样就防止了空指针的进入，省去了空指针保护的环节
+	
 ```cpp
-void swap(int& a, int& b) {  // 形参用 & 声明
-    int t = a;
-    a = b;
-    b = t;
-}
+  // C 写法 —— 手动取地址 + 手动解引用
+  void swap(int* a, int* b) {
+      int t = *a;    // 手动解引用
+      *a = *b;       // 手动解引用
+      *b = t;        // 手动解引用
+  }
+  swap(&x, &y);      // 手动取地址
+--------------------------------------------------------------------------------------------------
+  // C++ 写法 —— 编译器帮你干了这两步
+  void swap(int& a, int& b) {
+      int t = a;     // 编译器自动解引用
+      a = b;         // 编译器自动解引用
+      b = t;         // 编译器自动解引用
+  }
+  swap(x, y);        // 编译器自动取地址
 
-int x = 1, y = 2;
-swap(x, y);  // 直接传变量，底层自动传地址
+ 
 ```
-
-| 对比 | 指针 | 引用 |
-|:-----|:-----|:-----|
-| 声明 | `int* p;` | `int& r = x;` |
-| 传参 | `swap(&x, &y)` | `swap(x, y)` |
-| 函数内修改 | `*p = 10;` | `r = 10;` |
-| 可为空 | 可以 `nullptr` | 不可以（必须初始化） |
 
 ```cpp
 // const 引用：只读访问，不拷贝
@@ -364,18 +373,14 @@ for (auto& p : m) {
 > 迭代器 `p` 类似指向结构体的指针，也可用 `p->first`、`p->second` 访问。
 
 ### 2.4 Stack（栈）
-
-`std::stack` 是栈容器适配器，后进先出（LIFO）。头文件 `<stack>`。
-
 #### 2.4.1 创建
-
+`std::stack` 是栈容器适配器，后进先出（LIFO）。头文件 `<stack>`。
 ```cpp
 #include <stack>
 using namespace std;
 
 stack<int> s;
 ```
-
 #### 2.4.2 核心操作
 
 | 操作 | 代码 | 说明 |
@@ -455,15 +460,245 @@ int main(void) {
 > 无序容器元素不排序，遍历顺序不可预测。适用于纯去重/查找场景。
 
 
-# 三、进阶篇
+## 三、进阶篇
 
-## 1. 运算符bitset
+### 3.1 bitset 位集
 
-bitset就是一个二进制存储器，将二进制从低位到高位的顺序排列
+`bitset` 是一个二进制存储器，按从低位到高位的顺序排列。头文件`<bitset>`
+#### 3.1.1 初始化
 
-1.1 初始化
-bitset<5>b; 5表示5个二进制位，全部初始化为0
-u为
+| 写法                        | 说明                                |
+| :------------------------ | :-------------------------------- |
+| `bitset<N> b;`            | N 个二进制位，全部初始化为 0                  |
+| `bitset<N> b(u);`         | u 为 `unsigned long long`，按二进制位初始化 |
+| `bitset<N> b(s);`         | s 为 `"0101"` 字符串，从左到右对应高位到低位      |
+| `bitset<N> b(s, pos, n);` | 从字符串 s 的 pos 位置取 n 个字符            |
+```
+  bitset<8> b("1101");     // 字符串短 → 高位补 0 → 00001101
+  bitset<4> b("11110000"); // 字符串长 → 取低位（右侧） → 0000
+```
+#### 3.1.2 成员函数
+
+| 函数             | 说明                 |
+| :------------- | :----------------- |
+| `b.any()`      | 是否有任意位为 1          |
+| `b.none()`     | 是否所有位为 0           |
+| `b.count()`    | 值为 1 的位数           |
+| `b.size()`     | 总位数（N）             |
+| `b.test(i)`    | 测试第 i 位是否为 1       |
+| `b.set(i)`     | 将第 i 位设为 1         |
+| `b.reset()`    | 将所有位设为 0           |
+| `b.reset(i)`   | 将第 i 位设为 0         |
+| `b.flip()`     | 翻转所有位              |
+| `b.flip(i)`    | 翻转第 i 位            |
+| `b.to_ulong()` | 转为 `unsigned long` |
+| `b.to_ullong()` | 转为 `unsigned long long` |
+| `b.to_string()` | 转为 `"0101"` 字符串 |
+
+**例如**
+
+```cpp
+#include <iostream>
+#include <bitset>
+using namespace std;
+
+int main(void) {
+    bitset<5> b(19);            // 19 = 0b10011
+    cout << b << endl;          // 10011
+
+    for (int i = 0; i < b.size(); i++)
+        cout << b[i] << " ";    // 1 1 0 0 1（左→右，从低位到高位），cout<< s可以直接打印，不用遍历
+    cout << endl;
+
+    cout << "any: "   << b.any()   << endl;  // 1
+    cout << "count: " << b.count() << endl;  // 3
+    cout << "size: "  << b.size()  << endl;  // 5
+
+    cout << "test(0): " << b.test(0) << endl; // 1（第0位为1）
+
+    b.flip(1);                   // 翻转第1位：1→0
+    cout << b << endl;           // 10001
+
+    unsigned long a = b.to_ulong();
+    cout << a << endl;           // 17
+}
+```
+
+
+### 3.2 sort函数
+
+#### 1.主要功能
+对数组`int arr[]`或`vector()`进行排序
+
+>`vector`的首尾：`v.begin()，v.end()`
+>`int arr[n]`的首位: `arr`表示首地址，`arr+n`表示尾部
+>注意包含头文件:`#include <algorithm>`
+
+#### 2.使用方法
+```cpp
+sort（v.begin()，v.end()）
+```
+
+#### 3.cmp对sort的排序进行调整
+
+```cpp
+bool cmp(int a,int b)
+{
+  return a < b;   // 升序（小的在前）
+  return a > b;   // 降序（大的在前）
+}
+vector<int> v = {3, 1, 4, 1, 5};
+sort(v.begin(), v.end());               // 不传 cmp → 1 1 3 4 5（升序）
+sort(v.begin(), v.end(), [](int a, int b) { return a < b; });  // 1 1 3 4 5（升序）
+sort(v.begin(), v.end(), [](int a, int b) { return a > b; });  // 5 4 3 1 1（降序）
+```
+
+
+>[!note] 注意
+>  - 不能自相矛盾：如果 cmp(a, b) 为真，那 cmp(b, a) 必须为假
+>  - 不能用 >= 或 <=，只能用 > 或 <
+
+### 3.3 cctype 字符处理函数
+
+头文件 `<cctype>`，用于判断和转换字符。
+
+```cpp
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+int main(void) {
+    char c = 'A';
+    cout << "isalpha: " << isalpha(c) << endl;   // 1 是否为字母
+    cout << "islower: " << islower(c) << endl;   // 0 是否为小写
+    cout << "isupper: " << isupper(c) << endl;   // 1 是否为大写
+    cout << "isalnum: " << isalnum(c) << endl;   // 1 是否为字母或数字
+    cout << "isspace: " << isspace(c) << endl;   // 0 是否为空白
+
+    char s = tolower(c);   // 'a' 转小写
+    cout << s << endl;
+
+    char s1 = toupper(c);  // 'A' 转大写
+    cout << s1 << endl;
+}
+```
+
+| 函数           | 说明               |
+| :----------- | :--------------- |
+| `isalpha(c)` | 是否为字母            |
+| `islower(c)` | 是否为小写字母          |
+| `isupper(c)` | 是否为大写字母          |
+| `isdigit(c)` | 是否为数字（0-9）       |
+| `isalnum(c)` | 是否为字母或数字         |
+| `isspace(c)` | 是否为空白（空格、\t、\n等） |
+| `tolower(c)` | 转小写              |
+| `toupper(c)` | 转大写              |
+
+## 四、C++11篇
+
+### 4.1 Auto声明
+
+1. auto作用：可以让编译器根据初始值，推断出变量的类型，自动定义
+2. 作为迭代器：数组、集合、键值对、字符串等进行遍历，无需考虑长度
+
+---
+
+### 4.2 基于范围的for循环
+
+1.仅用于传值（对**所有容器**都可以）：
+2.修改原变量的值，需要加上取地址`&`
+
+| 写法              | 是否拷贝 | 能否修改原值 | 适用场景                    |
+| --------------- | ---- | ------ | ----------------------- |
+| `auto x`        | 拷贝一份 | 不能改原值  | 元素是 int/char 等小类型，不需要修改 |
+| `auto& x`       | 不拷贝  | 能改     | 需要修改容器元素                |
+| `const auto& x` | 不拷贝  | 不能改    | 最常用（省开销，避免开辟空间）         |
+
+```cpp
+  vector<int> v = {1, 2, 3};
+
+  // 1. 只读 —— 每次循环都拷贝一个元素出来
+  for (auto x : v) {
+      x = 99;      // 改的是副本，v 不变
+  }
+  // v 还是 {1, 2, 3}
+
+  // 2. 修改原容器 —— 用引用 &
+  for (auto& x : v) {
+      x = 99;      // 直接修改原元素
+  }
+  // v 变成 {99, 99, 99}
+
+  // 3. 只读但避免拷贝（最常用的写法）
+  for (const auto& x : v) {
+      // x 是原元素的 const 引用，不能改，也不拷贝
+  }
+```
+
+>[!note] 对于所有容器遍历打印
+```cpp
+ // 序列容器
+      vector<int> v = {1, 2, 3};
+      list<int> l = {4, 5, 6};
+      deque<int> d = {7, 8, 9};
+      array<int, 3> a = {10, 11, 12};
+      string s = "CAN";
+
+      for (const auto& x : v) cout << x << " ";    // 1 2 3
+      for (const auto& x : l) cout << x << " ";    // 4 5 6
+      for (const auto& x : d) cout << x << " ";    // 7 8 9
+      for (const auto& x : a) cout << x << " ";    // 10 11 12
+      for (const auto& c : s) cout << c << " ";    // C A N
+
+      // 关联容器
+      set<int> st = {3, 1, 2};
+      map<string, int> m = {{"brake", 1}, {"steer", 2}};
+
+      for (const auto& x : st) cout << x << " ";          // 1 2 3（自动排序）
+      for (const auto& pair : m)                          // 每个元素是 pair
+          cout << pair.first << ":" << pair.second << " "; // brake:1 steer:2
+      for (const auto& [k, v] : m)                         // C++17 结构化绑定更清爽
+          cout << k << ":" << v << " ";
+
+      // 多维
+      vector<vector<int>> mat = {{1,2}, {3,4}};
+      for (const auto& row : mat) {
+          for (const auto& x : row)
+              cout << x << " ";
+          cout << endl;
+      }
+```
+
+---
+
+### 4.3 to_string stoi stod 函数
+
+***引用头文件***`#include<string>` 
+- to_string
+	能够将数字转换为字符，
+```cpp
+	int i = 0;                              // 计数器，记录当前是第几次循环
+	string s = to_string(123213);            // 把数字转成字符串，s = "123213"
+	for(const auto& x : s)                  // 遍历字符串 s 的每个字符，x 是每个字符的只读引用
+      cout << x << "(" << i++ << ")  ";    // 打印字符 + 它对应的序号
+	cout << endl;                            // 换行
+	//打印结果1(0)  2(1)  3(2)  2(3)  1(4)  3(5)
+	printf("%s \n",s.str()); //使用printf输出，需要加一个.c_str()
+							 //.c_str() 把 string 转成 C 风格的 const char*
+```
+- stoi = string to int
+	字符串→整数
+- stod = string to double
+	字符串→浮点数
+- 补充，还有`stdo stold stol stoll stoul stoull`
+```cpp
+  int i = stoi("123");           // "123" → 123
+  long l = stol("123456");       // → long
+  long long ll = stoll("123");   // → long long
+  float f = stof("3.14f");       // → float
+  double d = stod("123.24");     // → double
+  long double ld = stold("3.14");// → long double
+```
 
 
 
