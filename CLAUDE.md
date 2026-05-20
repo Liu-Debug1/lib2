@@ -70,3 +70,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 图片嵌入：`![[图片名.png|宽度]]`
 - Callout 块：`> [!NOTE]`、`> [!tip]`、`> [!warning]` 等
 - 前端属性：`---` 包裹的 YAML frontmatter
+
+
+## 初学C++
+- 对于原理要讲的通俗易懂，不要一开始就讲的很深
+- 学会用类比和例子来说明，同时补充某些知识点的常用法和注意点
