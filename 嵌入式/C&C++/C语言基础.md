@@ -468,3 +468,113 @@ GPIOB_ODR |= (1 << 8);  // 直接操作 GPIOB 引脚 8 输出高电平
 > 1. **解引用前确保指针指向合法地址**，否则产生段错误/硬件异常
 > 2. **避免野指针**：指针变量定义后立即初始化（指向有效地址或置 `NULL`），释放动态内存后将指针置 `NULL`
 > 3. **同级赋值**：不同级别的指针之间不能直接赋值，需用 `&` 或 `*` 转换级别
+
+## 7.7 函数指针
+
+### 定义
+
+函数指针是一个**指向函数的指针变量**——代码本身存在内存里，函数指针存的就是那段代码的入口地址。
+
+| 语法 | 含义 | 示例 |
+|:-----|:-----|:-----|
+| `int (*p)(int, int)` | 声明 p 指向 "返回 int、接收两个 int" 的函数 | `int (*p)(int, int) = add;` |
+| `p = func` | 让 p 指向 func（`&` 可省略） | `p = add;` 等价于 `p = &add;` |
+| `p(3, 5)` | 通过指针调用函数（`*` 可省略） | `p(3, 5);` 等价于 `(*p)(3, 5);` |
+
+> [!warning] 括号不能省
+> `int (*p)(int)` 是函数指针，`int *p(int)` 是返回 `int*` 的函数声明，两者完全不同。
+
+### 为什么需要函数指针
+
+普通指针存数据，函数指针**存行为**——它让你在运行时决定"调用哪个函数"，而不是在编译时就写死。
+
+### 常见用法
+
+**用法 1：回调函数——把函数当参数传**
+
+```c
+// qsort 标准库就是函数指针的经典用法
+int compare(const void* a, const void* b) {
+    return *(int*)a - *(int*)b;
+}
+
+int arr[] = {3, 1, 4, 1, 5};
+qsort(arr, 5, sizeof(int), compare);  // 把 compare 传给 qsort
+```
+
+**用法 2：状态机——根据条件切换执行不同函数**
+
+```c
+typedef void (*StateFunc)(void);
+
+void state_idle(void)    { /* 空闲处理 */ }
+void state_running(void) { /* 运行处理 */ }
+void state_error(void)   { /* 故障处理 */ }
+
+StateFunc current_state = state_idle;
+// 切换状态就是换个指针
+current_state = state_running;
+current_state();  // 执行当前状态逻辑
+```
+
+**用法 3：命令表——用索引选函数（嵌入式常用）**
+
+```c
+typedef void (*CmdFunc)(void);
+
+void cmd_start(void) { ... }
+void cmd_stop(void)  { ... }
+void cmd_reset(void) { ... }
+
+CmdFunc cmd_table[] = { cmd_start, cmd_stop, cmd_reset };
+cmd_table[1]();  // 收到命令字 1，执行 cmd_stop
+```
+
+> [!tip] typedef 简化类型名
+> 函数指针的原始语法很长，用 `typedef` 给类型起个短名：`typedef int (*Operation)(int, int);`，之后 `Operation p = add;` 就干净多了。
+
+### 完整示例：计算器
+
+```c
+#include <stdio.h>
+
+typedef int (*Operation)(int, int);
+
+int add(int a, int b) { return a + b; }
+int sub(int a, int b) { return a - b; }
+int mul(int a, int b) { return a * b; }
+
+int calculate(int x, int y, Operation op) {
+    return op(x, y);
+}
+
+int main(void) {
+    printf("%d\n", calculate(10, 5, add));  // 15
+    printf("%d\n", calculate(10, 5, sub));  // 5
+    printf("%d\n", calculate(10, 5, mul));  // 50
+    return 0;
+}
+```
+
+### 函数指针 vs 普通指针
+
+| | 普通指针 | 函数指针 |
+|:---|:---|:---|
+| 指向谁 | 数据 | 代码（函数入口） |
+| 取地址 | `&变量` | `函数名` 或 `&函数名` |
+| 解引用 | `*p` 读写数据 | `p()` 调用函数 |
+| 偏移运算 | `p++` / `p--` 有意义（数组遍历） | **无意义**——函数不等长 |
+| 跨级转换 | `&p` → 二级指针，`*p` → 降级 | 无级别概念 |
+
+### 嵌入式中的应用
+
+裸机 C 开发中函数指针很实用，三个最常见的场景：
+
+| 场景 | 说明 |
+|:-----|:-----|
+| 中断回调 | 把用户处理函数注册到驱动层，中断触发时回调 |
+| 外设驱动表 | 用结构体 + 函数指针做 HAL 抽象，统一 SPI/I2C/UART 接口 |
+| 裸机状态机 | 用函数指针数组实现状态跳转，比 `switch-case` 更好维护 |
+
+> [!NOTE] C 语言 vs C++
+> 以上是 C 语言中的函数指针。在 C++ 中，函数指针还有一种特殊形式——**成员函数指针**（`void (Dog::*pb)() = &Dog::bark;`），以及更现代的 `std::function` + lambda 替代方案。这些属于 C++ 范畴，详见 C++ 相关笔记。

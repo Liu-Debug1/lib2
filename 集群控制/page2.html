@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title translate = "ru:title">Sci-Hub: статья отсутствует в базе. Что делать?</title>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width">
+    </head>
+    <body>
+
+        <style>
+
+    @import url('/styles/Atkinson.css');
+    @import url('/styles/Overpass.css');
+
+    html { font-size: 12px }
+
+    @media only screen and (min-width: 1400px) { html { font-size: 13px } }
+    @media only screen and (min-width: 1600px) { html { font-size: 14px } }
+    @media only screen and (min-width: 1800px) { html { font-size: 16px } }
+    @media only screen and (min-width: 2048px) { html { font-size: 18px } }
+
+    @media only screen and (max-height: 600px) { html { font-size: 10px } }
+
+    body {font-family: 'Atkinson Hyperlegible Mono', 'Overpass Mono', monospace; background-color: white; margin: 0; padding: 0 }
+
+    a {text-decoration: none; color: #c9211e}
+
+    fixed-width {margin: 0 auto; padding: 2.33rem; max-width: 2048px; overflow-x: hidden; display: block }
+
+    .vertical,
+    row-split     { display: flex; flex-direction: column; align-items: center }
+    column-split  { display: flex; align-items: flex-start; width: 100% }
+    column-center { flex-grow: 1 }
+
+    mobile-content { display: none }
+    mobile-content.wide column-split > * { margin-left: 2rem }
+    mobile-content.wide .picture { overflow: hidden; max-height: 30rem; }
+
+    block-rounded { border: dotted 2px #ccc; border-radius: 2rem; flex-grow: 1; margin: 0; place-items: center; display: grid; font-size: 1.33rem }
+    block-space   { margin-top: 3rem; display: block }
+
+    header-small  { font-size: 1.66rem; font-weight: bold; margin: 1rem; color: #c9211e}
+
+    block-rounded.info    { display: block; padding: 2.88rem; font-size: 1.22rem }
+    block-rounded.info h1 { font-size: 1.66rem; color: #333;  margin-bottom: 2rem; font-weight: bold; color: #333 }
+
+    block-date       { display: block; padding: 1rem; margin-right: 1.88rem;  max-width: fit-content; max-height: fit-content; text-align: center; color: white; border-radius: 1rem; font-size: 1.66rem; font-weight: bold; }
+
+    block-date.black { background-color: black; }
+    block-date.red   { background-color: #c9211e; }
+    block-date.white { border: dotted 2px #c9211e; background-color: white; color: #c9211e }
+    block-date.gray  { border: none; border-radius: 0; border-bottom:  dotted 2px #333; background-color: white; color: #333; font-weight: normal; }
+
+    block-date .number { font-size: 2rem }
+
+    span.rotate { animation: spin 3s linear infinite; display: inline-block; font-size: 1.88rem; }
+    @keyframes spin { from { transform: rotate(0deg) }  to { transform: rotate(360deg) } }
+
+    .yes { display: inline-block }
+    .no  { display: none }
+
+    @media only screen and (max-width: 1024px)
+    {
+        fixed-width { padding: 1.88rem }
+
+        column-split   { justify-content: space-around; align-items: center }
+        mobile-content { display: block; margin: 3rem 3rem 0 0 }
+    }
+
+    @media only screen and (max-width: 640px)
+    {
+        fixed-width { padding: 0.88rem }
+
+        mobile-content.wide { display: none }
+        mobile-content { margin-right: 0; }
+
+        block-rounded { margin: 0 1rem;  }
+    }
+
+    @media only screen and (max-width: 480px)
+    {
+        fixed-width { padding: 0 }
+    }
+
+</style>
+
+<script>
+
+    function local(id) { return document.querySelector(".messages ." + id).innerText  }
+
+</script>
+
+        <style type = "text/css">
+
+            body { background-color: #eee; }
+
+            fixed-width { width: fit-content; padding: 6rem; max-width: 800px; background-color: white; border-radius: 2rem; border: dashed 4.8rem #eee }
+            
+            .from img { border: dotted 2px #aaa; border-radius: 50%; width: 8rem }
+
+            .paper { margin: 3rem auto; width: fit-content; justify-items: left; padding: 2rem; border: dashed 2px #bbb; font-size: 1.22rem; background-color: #fafafa; }
+            .paper .title { font-size: 1.55rem; margin: 1rem 0 }
+            .paper .doi   { margin-top: 2rem }
+            .paper a { color: #777 }
+            .paper a .arrow { display: none }
+            .paper a:hover { margin-left: 0.88rem; }
+            .paper a:hover .arrow { display: inline-block }
+
+            .message { margin-left: 3rem; font-size: 1.22rem; padding: 1rem; border: 0 }
+
+            .info    { font-size: 1.22rem; border: 0; padding: 1rem 0 1rem 1rem; text-align: left; }
+            .info p  { margin:0; padding: 0 }
+            .info a  { display: inline-block; padding: 0.1rem 0.8rem; border-radius: 0.8rem;  background-color: #c9211e; color: white; font-weight: bold }
+            .info a:hover { background-color: white; border: dashed 1px #c9211e; color: #c9211e  }
+            .info b  { color: #c9211e; }
+
+            .header { color: #c9211e; font-size: 3rem; font-weight: bold; margin-top: 2rem }
+
+            .openaccess { background: white; padding: 2rem; margin: 2rem 1rem 4rem 4rem; border: dashed 1px #aaa }
+            .openaccess a { background: none; color: #c9211e; padding: 0;; }
+            .openaccess a:hover { background-color: green; color: white; border-color: green; padding: 0.1rem 0.8rem; }
+
+            .similar { margin: 8rem 2rem 8rem 6rem; display: block }
+
+            .similar .header { font-size: 3.8rem; color: #c9211e; font-weight: bold; display: grid; align-items: center; text-align: center; }
+            .similar .explanation { font-size: 1.22rem; background-color: white; border-radius: 2rem; border: dashed 2.8rem #eee; padding: 3rem 0; margin-left: 4%; text-align: center; }
+
+            .similar .columns { display: flex; flex-wrap: wrap; justify-content: center; }
+            .similar .columns div { width: 41%; max-width: 1024px; min-width: 680px; }
+
+            .similar .list {display: flex; flex-wrap: wrap; max-width: 100vw; justify-content: center;}
+
+            .similar .article {display: block; margin: 4rem 4% 0 0; width: 41%; max-width: 1024px; min-width: 640px; height: fit-content; padding: 1.23rem; border: solid 2px #eee; border-radius: 1rem; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; color: black; text-decoration: none; background-color: white; }
+            .similar .article .time,
+            .similar .article .geo   {color: #888; font-weight: bold; font-size: 1.23rem; width: fit-content}
+            .similar .article .title {font-size: 1.66rem; margin: 1rem 0 1rem 0}
+            .similar .article .journal {font-size: 1.33rem;}
+            .similar .article .year {font-size: 1.33rem;}
+            .similar .article .abstract {margin-top: 1.23rem; font-size: 1.22rem; text-align: justify;}
+            .similar .article:hover {border: dashed 2px #888}
+
+            @media only screen and (max-width: 1800px)
+            {
+                fixed-width { max-width: 640px; }
+            }
+
+            @media only screen and (max-width: 1600px)
+            {
+                .similar .header { margin-bottom: 3rem; }
+            }
+
+        </style>
+
+        <fixed-width>
+
+            <column-split>
+                <div class = "from"><a href = "/"><img src = "/pictures/ravenround.gif"></a></div>
+                <block-rounded class = "message" translate = "ru:message">Вот незадача! Полного текста этой статьи нет в моей базе:</block-rounded>
+            </column-split>
+
+            <block-rounded class = "paper">
+
+                <div class = "title">A cooperative methodology for multi‐roller automation in pavement construction considering trajectory planning and collaborative operation</div>
+
+                <div>Computer-Aided Civil and Infrastructure Engineering, 2024</div>
+
+                <div class = "abstract"><jats:title>Abstract</jats:title>
+                  <jats:p>Intelligent compaction, particularly fully autonomous compaction, has emerged as a widely accepted innovative technology for enhancing compaction quality and efficiency. When multiple rollers are concurrently engaged in compaction within the same region, the trajectory planning for each roller and cooperative control become pivotal factors in ensuring efficient and safe compaction. This paper presents a comprehensive methodology framework for...</div>
+
+                <div class = "doi"><a target = "_blank" href = "//doi.org/10.1111/mice.13347">10.1111/mice.13347 <span class = "arrow">&rarr;</span></a></div>
+
+            </block-rounded>
+
+            <block-rounded class = "info"  translate = "ru:recent">
+                Статья относительно новая - она была опубликована после 2021 года. Такие статьи, в большинстве своем, отсутствуют в базе Sci-Hub по причине сложности их автоматического скачивания в большом количестве.
+            </block-rounded>
+
+            <block-rounded class = "info openaccess" style = "display:none">
+                <p><span  translate = "ru:openaccess">О! Согласно индексу OpenAlex, данная статья находится в открытом доступе. Попробовать скачать её можно</span> <a target = "blank" href = "" translate = "ru:here">тут</a>. <span translate = "ru:warning">Но это не гарантированно, так как индекс часто содержит ошибки.</span></p>
+            </block-rounded>
+
+            <div class = "header" translate = "ru:question">Что делать?</div>
+
+            <block-rounded class = "info">
+
+                <p translate = "ru:todo">Но к счастью, есть такая новая платформа <a target = "blank" href = "//sci-net.ru/">Sci-Net</a>, где можно разместить запрос на статью. Как правило, если статья не какая-то редкая, то её скачают по Вашему запросу в течение нескольких минут.</p>
+                
+                <p style = "margin-top: 2rem" translate = "ru:goal">... после того, как запрос будет решен, статья появится на Sci-Hub и <b>будет всегда доступна бесплатно</b> для любого человека. Таким образом, пользуясь платформой, Вы помогаете проекту Sci-Hub расти, и с каждым новым запросом увеличиваете процент статей в открытом доступе.</p>
+
+            </block-rounded>
+
+        </fixed-width>
+    
+        <div class = "similar" >
+
+            <div class = "columns">
+                <div class = "header" translate = "ru:similar">
+                    похожие статьи
+                </div>
+
+                <div class = "explanation" translate = "ru:alternatives">
+                    ... а еще можно посмотреть похожие статьи по той же тематике, которые точно есть в базе данных проекта
+                </div>
+            </div>
+
+            <div class = "list">
+                <a class = "article" target = "blank" href = "/10.1109/wsc48552.2020.9383888">
+    <div class = "title">A Thermal-Based Technology for Roller Path Tracking and Mapping in Pavement Compaction Operations</div>
+    <div><span class = "journal">2020 Winter Simulation Conference (WSC)</span>, <span class = "year">2020</span></div>
+    <div class = "abstract">Compaction is one of the most important phases in construction of asphalt concrete (AC) pavements, as it directly affects the density and thereby the performance of pavements. This paper proposed a thermal-based compaction technology for real-time roller path tracking and mapping in pavement compaction operations, based on which roller operators can better control their compaction quality. In the proposed method, the incremental change of a roller position in a short interval was decomposed into two motion...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1111/mice.12683">
+    <div class = "title">Automatic roller path tracking and mapping for pavement compaction using infrared thermography</div>
+    <div><span class = "journal">Computer-Aided Civil and Infrastructure Engineering</span>, <span class = "year">2021</span></div>
+    <div class = "abstract">Compaction is an important task in asphalt pavement construction. It ensures high quality of the pavement to provide required long-term performance. Intelligent compaction (IC) integrated with global positioning system (GPS) is an innovative technology to help control the compaction quality of asphalt pavement by continuously providing the operator with the roller's current position and the number of rolling passes. However, the high equipment cost and signal disturbance are two identified issues when...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1155/2019/4528230">
+    <div class = "title">An Improved Low‐Cost Continuous Compaction Detection Method for the Construction of Asphalt Pavement</div>
+    <div><span class = "journal">Advances in Civil Engineering</span>, <span class = "year">2019</span></div>
+    <div class = "abstract">To realize the continuous compaction control (CCC) of asphalt pavement during construction, continuous detection method was investigated for the compaction degree values. For the trajectory of rollers, a collaborative positioning method was proposed. For the monitoring of rolling process, an embedded-based detection system was designed. For the evaluation of rolling effect, harmonic analysis was introduced and a new index, vibration compaction energy value (VCV e ), was proposed. Positioning experiments...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1109/access.2020.2983425">
+    <div class = "title">Research on the Method for Analyzing the Degree of Impact Acceleration and Compaction of the Impact Roller</div>
+    <div><span class = "journal">IEEE Access</span>, <span class = "year">2020</span></div>
+    <div class = "abstract">For the construction process of striking and rolling to treat the foundation, the traditional compaction test must conduct core sampling and damage detection, which are time-consuming and strenuous. Furthermore, it is difficult to determine the actual overall compaction. Based on acceleration sensor and satellite positioning measurement technology, this paper designs and develops an acceleration information acquisition device for impact construction, which can auto monitor impact construction in...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1109/access.2020.3008455">
+    <div class = "title">Path Tracking Control of an Articulated Road Roller With Sideslip Compensation</div>
+    <div><span class = "journal">IEEE Access</span>, <span class = "year">2020</span></div>
+    <div class = "abstract">Unmanned road roller has become an attractive solution to reduce operators’ working intensity and improve compaction efficiency. As a result of working in bumpy environments, sideslip effect is unavoidable during the compacting process. In order to guarantee the reliability and stability of path tracking control, a novel and effective method based on preview control and sideslip compensation is proposed in this paper. The kinematic and dynamic models of articulated road roller considering sideslip angles...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1177/1687814018773660">
+    <div class = "title">Development of a path following control model for an unmanned vibratory roller in vibration compaction</div>
+    <div><span class = "journal">Advances in Mechanical Engineering</span>, <span class = "year">2018</span></div>
+    <div class = "abstract">To achieve automatic rolling of an unmanned vibratory roller, the path following control model of the vibratory roller was built and the influence of drum vibration is considered since the roller always works in the vibration condition. The vibration dynamic model was first established. The dynamic model of the vibratory roller under the influence of exciting force was then developed. The heading following control algorithm based on preview strategy was designed to control the path following errors in...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.jclepro.2018.01.257">
+    <div class = "title">New method for making and selecting the compaction plan of asphalt pavement based on compaction quality and carbon emissions</div>
+    <div><span class = "journal">Journal of Cleaner Production</span>, <span class = "year">2018</span></div>
+    <div class = "abstract">Road construction projects should attempt to reduce their large amounts of carbon emissions. The objective of this research was to develop a new method for making and selecting the compaction plan of asphalt pavement based on the compaction quality and the amount of carbon emissions. To achieve this objective, new models for the distribution of rolling sections and the corresponding operation time have been proposed in accordance with Chinese standards and engineering experience. The rolling resistance...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1061/9780784482889.044">
+    <div class = "title">A Cyber-Physical System for Multi-Roller Control in Mega Infrastructure Projects</div>
+    <div><span class = "journal">Construction Research Congress 2020</span>, <span class = "year">2020</span></div>
+    <div class = "abstract">In mega civil and infrastructure projects such as dams, airports, and expressways, multiple rollers are usually used to simultaneously compact the same work zone to accelerate the construction progress. Quality control in such a multi-roller compaction scenario is a demanding task because it requires collaborative control of the roller fleet to enable the right type of roller to compact the right position at the right time with the right compaction parameters. Traditional intelligent compaction is mainly...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1080/15732471003588767">
+    <div class = "title">Increasing asphalt pavements durability through accurate construction: a model for compaction design</div>
+    <div><span class = "journal">Structure and Infrastructure Engineering</span>, <span class = "year">2011</span></div>
+    <div class = "abstract">The overall quality and durability of asphalt pavements mainly depends on its ‘design’, which generally includes materials selection, mix design, structural (and functional) design. In the ‘design’ phase, less attention is generally given to the definition of the construction procedures, which somehow seem to assume a secondary importance. The selection of the most suitable rollers and their use (number of passes, vibration settings) is rarely defined before the job, and the definitive choice often...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.autcon.2015.11.004">
+    <div class = "title">Adaptive quality control and acceptance of pavement material density for intelligent road construction</div>
+    <div><span class = "journal">Automation in Construction</span>, <span class = "year">2016</span></div>
+    <div class = "abstract">During conventional road construction, quality control and acceptance (QC/QA) are based on limited spot tests of material density at random locations which may not be representative of the compacted area and may consist of potential bias. This research presented an innovative material-machine-information and human-decision integrated system for adaptive QC/QA using the intelligent compaction (IC) technology to overcome the above limitation of conventional testing. In this integrated system, compaction...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1061/9780784482292.066">
+    <div class = "title">A New Collaborative Positioning Technology for Pavement Construction Monitoring</div>
+    <div><span class = "journal">CICTP 2019</span>, <span class = "year">2019</span></div>
+    <div class = "abstract">A new collaborative positioning technology based on global positioning system (GPS) and ultra-wide band (UWB) system was proposed for pavement construction monitoring. The civil GPS system was used to track rollers for numbers of passes; the UWB system was used to acquire the locations of rollers for the positioning of rolling. An optimization algorithm based on Kalman filtering algorithm was developed to improve accuracy. The positioning experiments were carried out and the results showed that the...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.conbuildmat.2019.05.122">
+    <div class = "title">Towards smart compaction: Particle movement characteristics from laboratory to the field</div>
+    <div><span class = "journal">Construction and Building Materials</span>, <span class = "year">2019</span></div>
+    <div class = "abstract">Abstract Compaction is one of the most critical steps in asphalt pavement construction that controls pavement density and ultimately impacts pavement performance. Because of the complexity of asphalt mixture property and the lack of fundamental understanding about compaction mechanisms, field compaction control is mostly experience-based in practice which brings out many problems such as under/over compaction. Very few studies have given insight into particle interaction characteristics under different...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1061/9780784412343.0059">
+    <div class = "title">Prediction of the In-Asphalt Temperature for Road Construction Operations</div>
+    <div><span class = "journal">Computing in Civil Engineering (2012)</span>, <span class = "year">2012</span></div>
+    <div class = "abstract">During the construction of new asphalt roads, compaction is the final step. Proper compaction is crucial for the road's lifetime. The temperature of the asphalt mixture directly impacts on the compactability and therefore the construction process strategy. Ideally compaction should be done within a certain in-asphalt temperature window, with lower and higher temperature boundaries, to achieve high quality road surface. But, as there are no available systems to predict in-asphalt temperature, roller...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.ifacol.2018.10.135">
+    <div class = "title">Accurate trajectory tracking with disturbance-resistant and heading estimation method for self-driving vibratory roller</div>
+    <div><span class = "journal">IFAC-PapersOnLine</span>, <span class = "year">2018</span></div>
+    <div class = "abstract">Abstract Applying self-driving technology in engineering machinery is highly expected to decrease driver’s fatigue and speed up construction schedule. Single drum vibratory roller is widely used in road and dam construction. This paper discusses the steering kinematics of a center-articulated roller and analysis the relationship between articulation angle and turning radius. Extended state observer is proposed to observe disturbance during vibration compaction on rough road. Based on the road curvature...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1061/(asce)co.1943-7862.0001293">
+    <div class = "title">Modeling the Dynamics of Asphalt–Roller Interaction during Compaction</div>
+    <div><span class = "journal">Journal of Construction Engineering and Management</span>, <span class = "year">2017</span></div>
+    <div class = "abstract">Compaction is one of the important steps in pavement construction that significantly affects the quality and long-term performance of asphalt pavement. Compaction of asphalt pavement is influenced by several factors related to the environment and the properties of asphalt mixture. Therefore, continuous control of compaction effort is needed in order to obtain adequate density uniformly throughout the pavement. Limited understanding of compaction dynamics and lack of a computationally tractable mathematical...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1088/1742-6596/1889/4/042059">
+    <div class = "title">Comprehensive control method of asphalt concrete compaction by road roller</div>
+    <div><span class = "journal">Journal of Physics: Conference Series</span>, <span class = "year">2021</span></div>
+    <div class = "abstract">Abstract The research results of the study of the system of continuous control of asphalt concrete compaction are presented. The comprehensive method for controlling asphalt concrete compaction based on the continuous measurement of key process parameters of the rolling process of the mixture: thermal condition, thickness of the laid layer, amplitude-frequency characteristics of the vibration roller system and asphalt concrete bed. The authors present the conditions for performing continuous control of...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1088/1757-899x/753/2/022054">
+    <div class = "title">Optimal Road Rollers Kit Selection for Asphalt-Concrete Mixture Compaction</div>
+    <div><span class = "journal">IOP Conference Series: Materials Science and Engineering</span>, <span class = "year">2020</span></div>
+    <div class = "abstract">Compaction is the final operation of the road construction. A set of road rollers is used for this operation. Compacting efficiency depends on the selected operation modes of the technique. The article obtained dependence of asphalt concrete mix physicomechanical parameters and road roller design parameters. Based on this dependence, an algorithm for selecting and calculating the operating modes of road rollers optimal kit has been developed. Coating compaction cost was taken as the optimization criterion.</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1061/41064(358)364">
+    <div class = "title">Continuous Test for Construction Quality of Mixed Filling Roadbed</div>
+    <div><span class = "journal">ICCTP 2009</span>, <span class = "year">2009</span></div>
+    <div class = "abstract">The components of mixed filling roadbed are complex, and the variability is big. This paper focuses on the monitoring technology of construction quality after compacting mixed filling roadbed. Based on the vibratory roller and roadbed interactive dynamic characters, the dynamic model has been built. By analyzing the model, the relationship between the dynamic response acceleration of the vibratory roller and the roadbed structure resistance has been obtained. The continuous informative response of the...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.autcon.2012.11.015">
+    <div class = "title">Evaluation of intelligent compaction for asphalt materials</div>
+    <div><span class = "journal">Automation in Construction</span>, <span class = "year">2013</span></div>
+    <div class = "abstract">This paper aims to evaluate the effectiveness of IC technology for the asphalt compaction. A framework of field construction and in-situ test control using IC technology was presented and implemented in one engineering project. A computer-aided data analysis method was proposed and implemented, including the univariate and geo-statistics, compaction curve and uniformity. Results show that IC technology can effectively improve the roller patter to achieve more uniform compaction, and the compaction curve...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.autcon.2016.03.012">
+    <div class = "title">SmartSite: Intelligent and autonomous environments, machinery, and processes to realize smart road construction projects</div>
+    <div><span class = "journal">Automation in Construction</span>, <span class = "year">2016</span></div>
+    <div class = "abstract">Abstract This article presents an overview of the SmartSite research project that adopts machine learning, decision theory and distributed artificial intelligence to design and test a multi-agent system (MAS) for asphalt road construction. SmartSite puts major emphasis on sensing and communication technologies that integrate real-time automated information exchange in the supply chain of road construction. As part of the larger SmartSite project, this article introduces a novel real-time path planning...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.conbuildmat.2017.11.139">
+    <div class = "title">Assessment of compaction quality of multi-layer pavement structure based on intelligent compaction technology</div>
+    <div><span class = "journal">Construction and Building Materials</span>, <span class = "year">2018</span></div>
+    <div class = "abstract">Abstract Intelligent compaction (IC) is an emerging and evolving technology for road construction. IC technology brings a lot of benefits as well as some challenges to be solved. This paper presents the framework of a field construction using IC technology and the results of the assessment of the practical use of intelligent compaction. The IC technology was implemented at the soil subgrade, the cement stabilized gravel subbase, and the cement stabilized gravel base course. The changing pattern of...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.3141/2268-12">
+    <div class = "title">Comprehensive Evaluation of Compaction of Asphalt Pavements and a Practical Approach for Density Predictions</div>
+    <div><span class = "journal">Transportation Research Record: Journal of the Transportation Research Board</span>, <span class = "year">2012</span></div>
+    <div class = "abstract">The compaction of asphalt mixtures has a significant influence on their performance. Insufficient compaction leads to several distresses, such as premature permanent deformation, excessive aging, and moisture damage, even if all desirable mixture design characteristics are met. Currently, no acceptable method relates asphalt pavement density to the compaction pattern. The compaction pattern required to achieve the desired density is established on the basis of experience and trial and error, a process that...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.5220/0005066905590567">
+    <div class = "title">Dynamical Model of Asphalt-Roller Interaction During Compaction</div>
+    <div><span class = "journal">Proceedings of the 11th International Conference on Informatics in Control, Automation and Robotics</span>, <span class = "year">2014</span></div>
+    <div class = "abstract">Proper and uniform compaction during construction is of utmost importance for the long term performance of asphalt pavement. Variations in the conditions of freshly laid pavements require adjustment of the compaction effort in order to obtain uniform and adequate density. One of the goals of on-going research in Intelligent Compaction (IC) is the development of adaptive feedback control mechanism to adjust the compaction effort according to the field and pavement conditions. Such feedback control systems...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.conbuildmat.2015.07.041">
+    <div class = "title">Development of compaction monitoring system for asphalt pavements</div>
+    <div><span class = "journal">Construction and Building Materials</span>, <span class = "year">2015</span></div>
+    <div class = "abstract">Abstract There is a great interest in developing and implementing new technologies for real-time evaluation of the uniformity of the construction of asphalt layers. In this study, the researchers developed a system for monitoring and documenting the compaction process of asphalt mixtures in the field. This system is called the compaction monitoring system (CMS). The CMS uses the latest global positioning system technologies and various sensors to provide full coverage of an asphalt layer. The new system...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.autcon.2019.01.004">
+    <div class = "title">Unmanned rolling compaction system for rockfill materials</div>
+    <div><span class = "journal">Automation in Construction</span>, <span class = "year">2019</span></div>
+    <div class = "abstract">The compaction quality of earth–rock dams is mainly controlled by compaction parameters (the number of compaction passes, compaction trajectory, vibration frequency, lift thickness, and driving speed) during construction. However, relying on the operator to implement control of the compaction parameters can result in unrolled, cross-rolling, and repeated-rolling problems between adjacent work faces. Additionally, existing compaction quality control methods cannot satisfy the requirements of construction...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1177/0361198118758690">
+    <div class = "title">Development of an Automated Remote Asphalt Paving Quality Control System</div>
+    <div><span class = "journal">Transportation Research Record: Journal of the Transportation Research Board</span>, <span class = "year">2018</span></div>
+    <div class = "abstract">The asphalt pavement construction monitoring system presented in this paper covers two main asphalt pavement construction processes: hot mix asphalt (HMA) plant production and the laydown and compaction operation. The main architecture of the monitoring system, the development of the required hardware and the software structure, and the implementation process are presented in this paper. The system is able to perform automatic data collection and data transmission, and can automatically provide feedback to...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.4028/www.scientific.net/amm.373-375.142">
+    <div class = "title">Research on the Key Technology of Road Machinery Intelligent Compaction</div>
+    <div><span class = "journal">Applied Mechanics and Materials</span>, <span class = "year">2013</span></div>
+    <div class = "abstract">The degree of compaction is a measure of the main evaluation index of road machinery compaction quality, but also affects the working characteristics of vibratory roller. In order to make the vibratory compaction always be in the best working state, we must adjust the operating parameters of the roller based on the real-time compaction pressure degree of the compacted material,for the best compaction effect. The paper analyzes the vibration frequency, amplitude, speed and other main working parameters and...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1177/1729881421992267">
+    <div class = "title">A four-level test system for evaluating pavement compaction performance of autonomous articulated vehicles</div>
+    <div><span class = "journal">International Journal of Advanced Robotic Systems</span>, <span class = "year">2021</span></div>
+    <div class = "abstract">This article develops a four-level test system for accurately evaluating pavement compaction performance of autonomous articulated vehicles. In the evaluation layer, various performance indicators are evaluated, including the stability, rapidity and accuracy of trajectory tracking, and the ratio of required compaction to actual compaction once and twice and compaction repeatability index when pavement compaction. The guidance and control layer can be described in terms of theory and application. At the...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/0016-0032(68)90277-9">
+    <div class = "title">Steam rollers for roads</div>
+    <div><span class = "journal">Journal of the Franklin Institute</span>, <span class = "year">1868</span></div>
+    <div class = "abstract">This article presents an overview of the SmartSite research project that adopts machine learning, decision theory and distributed artificial intelligence to design and test a multi-agent system (MAS) for asphalt road construction. SmartSite puts major emphasis on sensing and communication technologies that integrate real-time automated information exchange in the supply chain of road construction. As part of the larger SmartSite project, this article introduces a novel real-time path planning system for...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.3141/1868-13">
+    <div class = "title">Intelligent Compaction with Vibratory Rollers: Feedback Control Systems in Automatic Compaction and Compaction Control</div>
+    <div><span class = "journal">Transportation Research Record: Journal of the Transportation Research Board</span>, <span class = "year">2004</span></div>
+    <div class = "abstract">Dynamic compactors with parameters that adjust automatically to the condition of the subgrade form the basis for intelligent compaction. Dynamic soil compactors create nonlinear vibrations, and the typical characteristics of these vibrations are taken as the basis for the feedback control system for intelligent compaction. With the model of the machine and the soil as the starting point, the periodic loss of contact between the drum and the subgrade is postulated to be the main nonlinear effect. This...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1061/(asce)em.1943-7889.0000730">
+    <div class = "title">Dynamical Response of Vibratory Rollers during the Compaction of Asphalt Pavements</div>
+    <div><span class = "journal">Journal of Engineering Mechanics</span>, <span class = "year">2014</span></div>
+    <div class = "abstract">Intelligent compaction (IC) of asphalt pavements is an emerging area of research that attempts to extend mechanistic-empirical design principles to the construction of asphalt pavements. These techniques monitor the vibrations of the compactor and vary the roller parameters in real time to ensure adequate and uniform compaction. Although these techniques are in various stages of field demonstration, their performance is still being verified. The lack of established theoretical foundations has limited the...</div>
+</a>
+<a class = "article" target = "blank" href = "/10.1016/j.wear.2013.12.028">
+    <div class = "title">A laboratory compaction approach to characterize asphalt pavement surface friction performance</div>
+    <div><span class = "journal">Wear</span>, <span class = "year">2014</span></div>
+    <div class = "abstract">The main objective of the current study is to investigate whether surfaces produced by a standardized roller compaction method, using several compaction modes, could be used to simulate the frictional properties of the as-constructed pavement surfaces of a new, full-scale hot mix asphalt (HMA) road test section. Laboratory and field friction measurements were compared. The frictional characteristics of asphalt mixtures with different aggregate sizes, mix gradations and binder contents were investigated....</div>
+</a>
+
+            </div>
+        </div>
+
+    </body>
+</html>

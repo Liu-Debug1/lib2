@@ -15,3 +15,11 @@ desktop.ini
 *.bak
 *.ps1
 *.bat
+
+# Node / JS dependencies
+node_modules/
+package-lock.json
+
+# Claude Code internal
+.agents/
+.claudian/
