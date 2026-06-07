@@ -607,7 +607,6 @@ GPIOB_ODR |= (1 << 8);  // 直接操作 GPIOB 引脚 8 输出高电平
 ### 常见用法
 
 **用法 1：回调函数——把函数当参数传**
-
 ```c
 // qsort 标准库就是函数指针的经典用法
 int compare(const void* a, const void* b) {
@@ -617,9 +616,8 @@ int compare(const void* a, const void* b) {
 int arr[] = {3, 1, 4, 1, 5};
 qsort(arr, 5, sizeof(int), compare);  // 把 compare 传给 qsort
 ```
-
+	
 **用法 2：状态机——根据条件切换执行不同函数**
-
 ```c
 typedef void (*StateFunc)(void);
 
@@ -634,7 +632,6 @@ current_state();  // 执行当前状态逻辑
 ```
 
 **用法 3：命令表——用索引选函数（嵌入式常用）**
-
 ```c
 typedef void (*CmdFunc)(void);
 
@@ -645,6 +642,47 @@ void cmd_reset(void) { ... }
 CmdFunc cmd_table[] = { cmd_start, cmd_stop, cmd_reset };
 cmd_table[1]();  // 收到命令字 1，执行 cmd_stop
 ```
+
+
+**用法 4：外设驱动表——用结构体+函数指针统一接口**
+
+
+
+
+
+```c
+// 第一步：定义"外设驱动接口"结构体（每个函数指针是一个操作）
+typedef struct {
+    void (*init)(void);           // 初始化
+    int  (*read)(uint8_t* buf);   // 读取数据
+    void (*write)(uint8_t data);  // 发送数据
+} Driver;
+
+// 第二步：每种外设各自实现这些函数
+void SPI_Init(void) { /* SPI 初始化 */ }
+int  SPI_Read(uint8_t* buf) { return 0; }
+void SPI_Write(uint8_t data) { /* SPI 发送 */ }
+
+void I2C_Init(void) { /* I2C 初始化 */ }
+int  I2C_Read(uint8_t* buf) { return 0; }
+void I2C_Write(uint8_t data) { /* I2C 发送 */ }
+
+// 第三步：创建驱动表，填入函数指针
+Driver spi_driver = { SPI_Init, SPI_Read, SPI_Write };
+Driver i2c_driver = { I2C_Init, I2C_Read, I2C_Write };
+
+// 第四步：上层代码只认 Driver 结构体，不关心底层是什么外设
+void sensorTask(Driver* drv) {
+    drv->init();
+    uint8_t buf[10];
+    drv->read(buf);
+    drv->write(0x55);
+}
+// sensorTask(&spi_driver) → 走 SPI
+// sensorTask(&i2c_driver) → 走 I2C，代码完全一样
+```
+
+> 这就是 C 语言实现"多态"的方式——结构体里装函数指针，一组代码适配所有外设。新增第 3 种外设只写函数 + 填表，调用框架零修改。
 
 > [!tip] typedef 简化类型名
 > 函数指针的原始语法很长，用 `typedef` 给类型起个短名：`typedef int (*Operation)(int, int);`，之后 `Operation p = add;` 就干净多了。

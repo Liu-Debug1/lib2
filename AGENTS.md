@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## 仓库概况
 
@@ -12,13 +12,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | 目录 | 用途 |
 |------|------|
-| `AI/` | Claude Code 使用指南、API Key 配置 |
+| `AI/` | Codex 使用指南、API Key 配置 |
 | `嵌入式/` | 嵌入式学习笔记（STM32外设、模块资料、硬件） |
 | `嵌入式/C&C++/` | C/C++ 语法、数据结构与算法笔记 |
 | `自动车窗系统软硬件设计/` | 毕业论文核心区（文献总览、流程记录） |
 | `收件箱/` | 临时/待整理笔记 |
 | `图片/` | 笔记附件图片（gitignore 排除） |
-| `.claude/` | 项目级 Claude Code 配置和 Skills |
+| `.Codex/` | 项目级 Codex 配置和 Skills |
 
 ## 关键约定
 
@@ -64,7 +64,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### 当前状态（2026-05-30）
 
 - **角色**：总秘书大人（总控）+ 问题官 + 知识官 + 复盘官
-- **位置**：`.claude/skills/学习秘书团/`
+- **位置**：`.Codex/skills/学习秘书团/`
 - **已跑通闭环**：出题 → 对话考试 → 批改 → 错题入库 → 1-3-7 复盘
 - **配套文件**：`复习追踪/`（题源.md、题库.md、错题记录.md、问题状态库.md）
 - **设计文档**：`AI/agent秘书团构想.md`

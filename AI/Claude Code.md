@@ -152,30 +152,150 @@ claude --dangerously-skip-permissions
 - ✅ 测试覆盖关键路径
 - ✅ 记录项目约定到 CLAUDE.md
 
-## 六、指令大全
+## 六、指令大全（共 73 条）
 
-| 指令                | 功能说明                              |
-| :---------------- | :-------------------------------- |
-| `/help`           | 查看所有命令及帮助信息                       |
-| `/clear`          | 彻底清空上下文，重开一个会话                    |
-| `/compact`        | 主动压缩精简上下文                         |
-| `/context`        | 查看上下文占比、token 消耗等详细信息             |
-| `/resume`         | 恢复之前的对话历史                         |
-| `/rewind`         | 进入回滚界面，回退到之前的对话节点                 |
-| `/model <模型名>`    | 切换模型                              |
-| `/config`         | 修改设置（主题、模型、权限等）                   |
-| `/init`           | 初始化项目级 CLAUDE.md                  |
-| `/plan`           | 进入计划模式                            |
-| `/memory`         | 管理全局/项目记忆及 Auto-memory            |
-| `/cost`           | 查看本次会话的 token 消耗                  |
-| `/doctor`         | 诊断环境问题                            |
-| `/fast`           | 切换到快速模式（更快输出）                     |
-| `/review`         | 审查当前分支的代码变更                       |
-| `/simplify`       | 派生 3 个 Agent 从代码质量、效率、复用性做审核并自动优化 |
-| `/loop <时间> <命令>` | 按间隔重复执行                           |
-| `/agents`         | 创建、调用、管理子 Agent                   |
-| `/plugin`         | 发现和管理插件                           |
-| `/btw`            | 临时切出当前项目，隔离上下文进行对话，按 Esc 返回       |
+> 来源：Claude Code 官方最新指令清单，2026-06-04 更新
+
+### 6.1 会话管理
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/clear` | 彻底清空上下文，重开一个会话 |
+| `/compact` | 主动压缩精简上下文 |
+| `/context` | 查看上下文占比、token 消耗等详细信息 |
+| `/resume` | 恢复之前的对话历史 |
+| `/rewind` | 进入回滚界面，回退到之前的对话节点 |
+| `/export [filename]` | 将当前对话导出为纯文本，可指定文件名 |
+| `/recap` | 按需生成当前会话的摘要 |
+| `/rename [name]` | 重命名当前会话并在提示栏显示名称 |
+| `/copy [N]` | 复制上一个 assistant 响应到剪贴板，N 可指定倒数第 N 个 |
+| `/exit` | 退出 CLI（别名 `/quit`） |
+
+### 6.2 模型与输出控制
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/model <模型名>` | 切换模型 |
+| `/effort [level\|auto]` | 设置模型推理深度：low / medium / high / xhigh / max，auto 恢复默认 |
+| `/fast [on\|off]` | 切换快速模式开或关 |
+| `/config` | 打开设置界面（别名 `/settings`） |
+| `/theme` | 更改颜色主题：auto / light / dark / colorblind-accessible |
+| `/color [color\|default]` | 设置当前会话提示栏颜色：red, blue, green, yellow, purple, orange, pink, cyan |
+| `/tui [default\|fullscreen]` | 设置终端 UI 渲染器并重启对话 |
+
+### 6.3 任务与自动化
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/plan [description]` | 进入计划模式，可选描述任务 |
+| `/ultraplan` | 超计划模式：浏览器中审查计划 → 远程执行或回传终端 |
+| `/loop [interval] [prompt]` | 按间隔重复执行提示（别名 `/proactive`） |
+| `/batch` | 跨代码库编排大规模更改，在隔离 git worktree 中生成后台 agent |
+| `/tasks` | 列出和管理后台任务（别名 `/bashes`） |
+| `/schedule [description]` | 创建、列出、管理定时任务（别名 `/routines`） |
+
+### 6.4 代码审查与安全
+
+| 指令                     | 功能                              |
+| :--------------------- | :------------------------------ |
+| `/review [PR]`         | 在当前会话中审查 pull request           |
+| `/ultrareview [PR]`    | 云沙盒中运行深度多 agent 代码审查            |
+| `/security-review`     | 分析当前分支待处理更改的安全漏洞                |
+| `/simplify`            | 派生 Agent 从代码质量、效率、复用性做审核并自动优化   |
+| `/diff`                | 打开交互式 diff 查看器                  |
+| `/pr-comments [PR]`    | 获取并显示 GitHub PR 的评论             |
+| `/autofix-pr [prompt]` | 启动 Web 会话，监视分支 PR 并在 CI 失败时推送修复 |
+
+
+### 6.5 Git 与分支
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/init` | 初始化项目级 CLAUDE.md |
+| `/branch [name]` | 在当前对话点创建分支（别名 `/fork`） |
+| `/btw` | 临时切出当前项目，隔离上下文进行对话，按 Esc 返回 |
+
+### 6.6 权限与安全
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/login` | 登录 Anthropic 账户 |
+| `/logout` | 从 Anthropic 账户登出 |
+| `/permissions` | 管理工具权限（允许/询问/拒绝），别名 `/allowed-tools` |
+| `/fewer-permission-prompts` | 扫描转录本，将常用只读操作加入允许列表 |
+| `/sandbox` | 切换沙盒模式（仅支持的平台） |
+| `/privacy-settings` | 查看和更新隐私设置（Pro / Max 订阅者可用） |
+
+### 6.7 工具与环境
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/doctor` | 诊断和验证安装和设置，按 f 修复问题 |
+| `/terminal-setup` | 配置终端按键绑定（Shift+Enter 等） |
+| `/keybindings` | 打开或创建按键绑定配置文件 |
+| `/statusline` | 配置 Claude Code 状态行 |
+| `/hooks` | 查看工具事件的 hook 配置 |
+| `/ide` | 管理 IDE 集成并显示状态 |
+| `/add-dir` | 添加工作目录以访问文件（--continue / --resume 恢复） |
+| `/desktop` | 在 Claude Code Desktop 应用中继续会话（别名 `/app`） |
+| `/mobile` | 显示下载移动应用的二维码（别名 `/ios`, `/android`） |
+| `/chrome` | 配置 Chrome 中的 Claude 设置 |
+
+### 6.8 扩展（Skill / MCP / Plugin / Agent）
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/agents` | 管理 sub-agent 配置 |
+| `/skills` | 列出可用技能，按 t 按 token 数量排序 |
+| `/plugin` | 发现和管理插件 |
+| `/mcp` | 管理 MCP 服务器连接和 OAuth 认证 |
+| `/reload-plugins` | 重新加载所有活动插件以应用更改 |
+| `/claude-api [migrate\|managed-agents-onboard]` | 加载 Claude API 参考材料 |
+
+### 6.9 云服务与远程
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/remote-control` | 使会话可通过 claude.ai 远程控制（别名 `/rc`） |
+| `/remote-env` | 为 --remote 启动的 Web 会话配置默认远程环境 |
+| `/teleport` | 将 Web 上的 Claude Code 会话拉入终端（别名 `/tp`） |
+| `/web-setup` | 使用本地 gh CLI 凭证连接 GitHub 账户到 Web |
+| `/install-github-app` | 为仓库设置 Claude GitHub Actions 应用 |
+| `/install-slack-app` | 安装 Claude Slack 应用 |
+| `/extra-usage` | 配置额外使用量以在达到速率限制时继续工作 |
+
+### 6.10 模型提供商配置
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/setup-bedrock` | 配置 Amazon Bedrock 认证、区域和模型（别名 `/bedrock-setup`） |
+| `/setup-vertex` | 配置 Google Vertex AI 认证、项目、区域和模型 |
+
+### 6.11 信息与统计
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/cost` | 显示会话成本（别名 `/usage`, `/stats`） |
+| `/usage` | 显示会话成本、计划使用限制和活动统计 |
+| `/insights` | 生成会话分析报告（项目领域、交互模式、摩擦点） |
+| `/release-notes` | 在交互式版本选择器中查看变更日志 |
+| `/status` | 显示版本、模型、账户和连接状态 |
+| `/debug [description]` | 启用调试日志并排查问题 |
+| `/heapdump` | 将 JavaScript 堆快照写入桌面，用于诊断高内存使用 |
+| `/feedback [report]` | 提交关于 Claude Code 的反馈（别名 `/bug`） |
+
+### 6.12 其他
+
+| 指令 | 功能 |
+|:-----|:-----|
+| `/memory` | 管理全局/项目记忆及 Auto-memory |
+| `/help` | 查看所有命令及帮助信息 |
+| `/voice [hold\|tap\|off]` | 切换语音听写模式 |
+| `/powerup` | 通过互动课程和动画演示发现 Claude Code 功能 |
+| `/team-onboarding` | 从 Claude Code 使用历史生成团队入职指南 |
+| `/passes` | 与朋友分享一周免费 Claude Code |
+| `/stickers` | 订购 Claude Code 贴纸 |
+| `/upgrade` | 打开升级页面切换到更高计划层 |
 
 ## 七、模型配置（接入 DeepSeek）
 

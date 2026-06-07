@@ -196,7 +196,6 @@ git checkout master
 ```bash
 git push -u origin master
 ```
-
 之后直接用 `git push` 就行。
 
 ---
@@ -213,3 +212,7 @@ GitHub 远程：
 ```
 
 正常只需在 `master` 上工作，不需要碰其他分支。
+
+	
+
+![[Pasted image 20260606225204.png]]
