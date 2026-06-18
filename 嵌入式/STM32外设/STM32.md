@@ -641,9 +641,7 @@ AT 模式用于**配置蓝牙模块参数**：
 | 波特率 | 配置为 9600，与 STM32 串口初始化一致 |
 | 注意事项 | 某些国产模块功能被阉割 |
 
-![蓝牙硬件连接\|400](https://api2.mubu.com/v3/document_image/28368310_4f26bc67-fc4e-407a-e932-537faa35b85c.png?)
-
----
+![蓝牙硬件连接\|768](https://api2.mubu.com/v3/document_image/28368310_4f26bc67-fc4e-407a-e932-537faa35b85c.png?)
 
 ## 11. 按键处理
 

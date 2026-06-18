@@ -214,7 +214,9 @@ if (p == NULL) return 0;  // 先判断，再解引用
 
 ## 6. switch-case 穿透 (Fall-Through)
 
-### 问题复现
+**switch-case 穿透的根因是 case 末尾缺少 `break`/`return`——CPU 只查跳转表不验变量值。每个 case 的所有条件路径必须有显式出口。**
+
+### 6.1 问题复现
 
 在 [[自动车窗防夹模块]] 的 `AntiPinch_Process()` 中，`case AP_BLANKING:` 末尾缺少兜底返回，导致消隐期内执行流穿透到检测逻辑：
 
@@ -229,14 +231,14 @@ case AP_MONITORING:                          // ← CPU 走到了这里
     delta_ma = current - baseline;           // ← 开始检测防夹！
 ```
 
-### 关键认知
+### 6.2 根因分析
 
-`ap->AP_state` 的值仍是 `AP_BLINKING`（变量没变），但 **CPU 只看 switch 跳转表，不检查变量的值**。没有 `break` 或 `return`，就一直往下执行。
+`ap->AP_state` 的值仍是 `AP_BLANKING`（变量没变），但 **CPU 只看 switch 跳转表，不检查变量的值**。没有 `break` 或 `return`，就一直往下执行。
 
 > [!bug] 实际后果
 > 消隐期内电机启动产生尖峰电流 → 穿透到 `AP_MONITORING` → 阈值判断通过 → ==误触发防夹反转==。
 
-### 修复方案
+### 6.3 修复方案
 
 ```c
 case AP_BLANKING:
@@ -248,7 +250,7 @@ case AP_BLANKING:
 > [!tip] 为什么不用 `break;`
 > 编译器可能警告 `break` 后代码不可达。`return 0;` 明确表达"本次不检测"的意图，比 `break;` 语义更清晰。
 
-### 检查清单
+### 6.4 自查清单
 
 > [!todo] switch-case 自查清单
 > - [ ] 每个 case 的**所有条件路径**都有 `return` 或 `break` 吗？
@@ -259,8 +261,19 @@ case AP_BLANKING:
 > [!important] 通用原则
 > **switch-case 中每个 case 结尾必须有 `break;` 或 `return;`。**
 > 如果分支条件覆盖不全，最后一个条件之后加兜底 `return`，既防穿透又让意图明确。
->
-> **状态机代码不要放在中断服务函数里执行**——ISR 必须快进快出，长逻辑放主循环轮询。
+
+> [!warning] 状态机代码不要放在 ISR 里
+> 中断服务函数必须快进快出，长逻辑放主循环轮询。穿透问题在 ISR 中后果更严重——可能破坏中断时序，导致优先级反转或看门狗超时。
+
+### 复盘
+
+**知识关联：**
+- switch-case 穿透本质上是 C 语言"fall-through"设计的副作用——和 [5. 指针声明、类型转换与解引用](#5-指针声明类型转换与解引用) 中的空指针保护一样，都属于"语言的灵活性和安全性之间的权衡"
+- 状态机（switch-case + enum）是线控底盘中最常见的控制模式，穿透 bug 在线控转向/制动的状态切换中后果严重
+
+**工程习惯：**
+- 新写状态机时，每个 `case` 先写 `break;` 再填逻辑——把出口当脚手架，而不是事后检查
+- Code review 时重点扫 switch-case 的 `break`/`return` 覆盖率
 
 ---
 

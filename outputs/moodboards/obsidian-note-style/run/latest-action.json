@@ -1,0 +1,29 @@
+{
+  "id": "append-obsidian-note-style-reference-fallback-v1",
+  "action": "append_moodboard_board_items",
+  "label": "Appended mood-board images",
+  "createdAt": "2026-06-09T03:43:22.133Z",
+  "timestamp": "2026-06-09T03:43:22.133Z",
+  "sourceActionId": "reference-fallback-2026-06-09",
+  "idempotencyKey": "obsidian-note-style-reference-fallback-v1",
+  "appendedItemIds": [
+    "structured-engineering-notebook-ref",
+    "callout-layering-system-ref",
+    "code-and-concept-pairing-ref",
+    "ascii-diagram-feeling-ref",
+    "engineering-decision-table-ref",
+    "debugging-trail-ref",
+    "long-term-knowledge-archive-ref",
+    "review-and-recall-surface-ref",
+    "technical-callout-cards-ref",
+    "vehicle-control-systems-map-ref",
+    "readable-markdown-craft-ref",
+    "calm-builder-desk-ref"
+  ],
+  "appendedCount": 12,
+  "itemCount": 24,
+  "runDirectory": "D:\\桌面\\Ob_Learning\\outputs\\moodboards\\obsidian-note-style\\run",
+  "streamPath": "D:\\桌面\\Ob_Learning\\outputs\\moodboards\\obsidian-note-style\\run\\data\\stream.json",
+  "runStatePath": "D:\\桌面\\Ob_Learning\\outputs\\moodboards\\obsidian-note-style\\run\\run-state.json",
+  "latestActionPath": "D:\\桌面\\Ob_Learning\\outputs\\moodboards\\obsidian-note-style\\run\\latest-action.json"
+}

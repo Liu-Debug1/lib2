@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "title": "Obsidian Note Style Moodboard",
+    "subtitle": "Visual language for long-term engineering notes",
+    "summary": "A restrained, technical, study-friendly visual world for an obsidian-note-style skill: layered notes, engineering diagrams, callouts, tables, code references, and review surfaces.",
+    "business": "Personal Obsidian knowledge base",
+    "goal": "Create visual references for a skill that turns long-term notes into readable, layered, review-friendly knowledge assets.",
+    "audience": "Mechanical and vehicle engineering graduate student learning C/C++, embedded systems, ROS, chassis-by-wire, and engineering workflows.",
+    "palette": "off-white paper, graphite gray, deep green, muted cyan, steel blue, occasional amber warning accents",
+    "avoid": "readable UI text, logos, fake Obsidian screenshots, collage layouts, dense scrapbook visuals, over-decorated stationery, neon cyberpunk, generic AI dashboard aesthetics"
+  },
+  "signals": {
+    "mood": [
+      "disciplined",
+      "practical",
+      "precise",
+      "readable",
+      "calm",
+      "engineering-minded"
+    ],
+    "visual_language": [
+      "annotated notebooks",
+      "structured technical diagrams",
+      "clean workbench scenes",
+      "marked-up code references",
+      "paper and digital hybrid knowledge systems"
+    ],
+    "format_rules": [
+      "one single visual reference image per tile",
+      "no collage",
+      "no grid",
+      "no readable text",
+      "no logos",
+      "no UI screenshot"
+    ]
+  },
+  "items": [
+    {
+      "id": "structured-engineering-notebook-ref",
+      "title": "Structured Engineering Notebook",
+      "caption": "Notebook and desk planning reference for structured long-term notes.",
+      "tone": "calm, organized, precise",
+      "family": "note-structure",
+      "bestFor": "Heading hierarchy, margin rhythm, structured note surfaces",
+      "prompt": "Single editorial photograph of an open engineering notebook on a clean desk, with abstract diagrams and margin marks; no readable text, no logos.",
+      "imageUrl": "https://www.pexels.com/photo/notebooks-on-a-desk-5124877/",
+      "sourceImageUrl": "https://www.pexels.com/photo/notebooks-on-a-desk-5124877/"
+    },
+    {
+      "id": "callout-layering-system-ref",
+      "title": "Callout Layering System",
+      "caption": "Layered sticky-note reference for callouts, warnings, tips, and examples.",
+      "tone": "layered, academic, restrained",
+      "family": "callout-hierarchy",
+      "bestFor": "Callout density, hierarchy, visual emphasis",
+      "prompt": "Single visual reference image of translucent tabs and colored annotation flags layered over technical notes; no readable text, no UI.",
+      "imageUrl": "https://www.pexels.com/photo/close-up-photo-of-sticky-notes-on-whiteboard-5990265/",
+      "sourceImageUrl": "https://www.pexels.com/photo/close-up-photo-of-sticky-notes-on-whiteboard-5990265/"
+    },
+    {
+      "id": "code-and-concept-pairing-ref",
+      "title": "Code And Concept Pairing",
+      "caption": "Laptop-plus-notebook reference for pairing implementation with explanation.",
+      "tone": "practical, focused, technical",
+      "family": "code-concept",
+      "bestFor": "Code blocks next to conceptual explanation",
+      "prompt": "Single composed scene with a laptop showing blurred code-like shapes beside handwritten concept sketches; no readable code, no logos.",
+      "imageUrl": "https://www.pexels.com/photo/notebook-and-a-laptop-on-a-desk-5908723/",
+      "sourceImageUrl": "https://www.pexels.com/photo/notebook-and-a-laptop-on-a-desk-5908723/"
+    },
+    {
+      "id": "ascii-diagram-feeling-ref",
+      "title": "ASCII Diagram Feeling",
+      "caption": "Whiteboard structure reference for box-and-arrow thinking.",
+      "tone": "minimal, structural, clear",
+      "family": "diagram-structure",
+      "bestFor": "ASCII diagrams, flow explanation, module relationships",
+      "prompt": "Single minimalist photograph of a whiteboard with simple abstract box-and-arrow technical structure; no readable text, no labels.",
+      "imageUrl": "https://www.pexels.com/photo/sticky-notes-on-whiteboard-7580842/",
+      "sourceImageUrl": "https://www.pexels.com/photo/sticky-notes-on-whiteboard-7580842/"
+    },
+    {
+      "id": "engineering-decision-table-ref",
+      "title": "Engineering Decision Table",
+      "caption": "Engineering tools and paper reference for comparison tables and tradeoff frameworks.",
+      "tone": "analytical, exact, useful",
+      "family": "decision-framework",
+      "bestFor": "Tables, parameter explanations, tradeoff frameworks",
+      "prompt": "Single overhead photograph of a comparison-table-like document with technical objects and restrained color; no readable text.",
+      "imageUrl": "https://www.pexels.com/photo/notebooks-pens-and-calculator-lying-on-a-desk-6192757/",
+      "sourceImageUrl": "https://www.pexels.com/photo/notebooks-pens-and-calculator-lying-on-a-desk-6192757/"
+    },
+    {
+      "id": "debugging-trail-ref",
+      "title": "Debugging Trail",
+      "caption": "Electronics desk reference for embedded troubleshooting notes.",
+      "tone": "methodical, focused, diagnostic",
+      "family": "debugging",
+      "bestFor": "Failure analysis, checklist flow, embedded troubleshooting",
+      "prompt": "Single visual reference image of a methodical troubleshooting setup with notebook, electronics, and waveform-like screen; no labels or logos.",
+      "imageUrl": "https://www.pexels.com/photo/engineer-developing-app-3912958/",
+      "sourceImageUrl": "https://www.pexels.com/photo/engineer-developing-app-3912958/"
+    },
+    {
+      "id": "long-term-knowledge-archive-ref",
+      "title": "Long-Term Knowledge Archive",
+      "caption": "Index-card reference for durable personal knowledge storage.",
+      "tone": "durable, calm, archival",
+      "family": "knowledge-archive",
+      "bestFor": "Long-term recall structure and review cards",
+      "prompt": "Single photograph of carefully arranged index cards and binders for a personal knowledge archive; no readable text.",
+      "imageUrl": "https://www.pexels.com/photo/close-up-of-person-sitting-at-desk-studying-with-cards-8035282/",
+      "sourceImageUrl": "https://www.pexels.com/photo/close-up-of-person-sitting-at-desk-studying-with-cards-8035282/"
+    },
+    {
+      "id": "review-and-recall-surface-ref",
+      "title": "Review And Recall Surface",
+      "caption": "Study desk reference for spaced review and recall prompts.",
+      "tone": "bright, calm, organized",
+      "family": "review-surface",
+      "bestFor": "复盘、错题、间隔重复、记忆触发",
+      "prompt": "Single image of spaced-review cards laid out beside a notebook, with subtle marks and a pencil; no readable text.",
+      "imageUrl": "https://www.pexels.com/photo/calculator-and-notebook-on-study-desk-36488453/",
+      "sourceImageUrl": "https://www.pexels.com/photo/calculator-and-notebook-on-study-desk-36488453/"
+    },
+    {
+      "id": "technical-callout-cards-ref",
+      "title": "Technical Callout Cards",
+      "caption": "Card layout reference for note, tip, warning, and example blocks.",
+      "tone": "educational, elegant, structured",
+      "family": "callout-cards",
+      "bestFor": "Callout taxonomy, visual chunking, note block systems",
+      "prompt": "Single scene of physical note cards on a desk, differentiated by color strip and simple geometric marks; no readable text.",
+      "imageUrl": "https://www.pexels.com/photo/hand-placing-sticky-note-on-whiteboard-15505431/",
+      "sourceImageUrl": "https://www.pexels.com/photo/hand-placing-sticky-note-on-whiteboard-15505431/"
+    },
+    {
+      "id": "vehicle-control-systems-map-ref",
+      "title": "Vehicle Control Systems Map",
+      "caption": "Systems-thinking reference for vehicle/chassis control diagrams.",
+      "tone": "systems-oriented, precise, engineering",
+      "family": "vehicle-control",
+      "bestFor": "控制链路、传感器-控制器-执行器结构、模块关系",
+      "prompt": "Single whiteboard-style scene with abstract vehicle control blocks, sensors, arrows, and controller modules; no readable labels.",
+      "imageUrl": "https://www.pexels.com/photo/colorful-sticky-notes-taped-to-schedule-on-whiteboard-15505432/",
+      "sourceImageUrl": "https://www.pexels.com/photo/colorful-sticky-notes-taped-to-schedule-on-whiteboard-15505432/"
+    },
+    {
+      "id": "readable-markdown-craft-ref",
+      "title": "Readable Markdown Craft",
+      "caption": "Printed-document reference for markdown hierarchy, code blocks, tables, and side panels.",
+      "tone": "readable, premium, editorial",
+      "family": "markdown-craft",
+      "bestFor": "Markdown formatting, code blocks, side notes, table rhythm",
+      "prompt": "Single close-up of a markdown-like technical document printed on paper with structure blocks, code-shaped bars, side panels, and table shapes; no readable text.",
+      "imageUrl": "https://www.pexels.com/photo/person-writing-on-a-notebook-5185080/",
+      "sourceImageUrl": "https://www.pexels.com/photo/person-writing-on-a-notebook-5185080/"
+    },
+    {
+      "id": "calm-builder-desk-ref",
+      "title": "Calm Builder Desk",
+      "caption": "Clean long-session desk reference for building notes, code, and engineering understanding.",
+      "tone": "warm, disciplined, focused",
+      "family": "builder-desk",
+      "bestFor": "Overall mood: calm, long-term, practical, engineering-focused",
+      "prompt": "Single editorial photograph of a focused engineering study desk with keyboard, notebook, electronics, sketch, and reference tabs; no readable text.",
+      "imageUrl": "https://www.pexels.com/photo/open-notebook-and-laptop-on-white-desk-31373574/",
+      "sourceImageUrl": "https://www.pexels.com/photo/open-notebook-and-laptop-on-white-desk-31373574/"
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "title": "Obsidian Note Style Moodboard",
+    "subtitle": "Visual language for long-term engineering notes",
+    "summary": "A restrained, technical, study-friendly visual world for an obsidian-note-style skill: layered notes, engineering diagrams, callouts, tables, code references, and review surfaces.",
+    "business": "Personal Obsidian knowledge base",
+    "goal": "Create visual references for a skill that turns long-term notes into readable, layered, review-friendly knowledge assets.",
+    "audience": "Mechanical and vehicle engineering graduate student learning C/C++, embedded systems, ROS, chassis-by-wire, and engineering workflows.",
+    "palette": "off-white paper, graphite gray, deep green, muted cyan, steel blue, occasional amber warning accents",
+    "avoid": "readable UI text, logos, fake Obsidian screenshots, collage layouts, dense scrapbook visuals, over-decorated stationery, neon cyberpunk, generic AI dashboard aesthetics"
+  },
+  "signals": {
+    "mood": [
+      "disciplined",
+      "practical",
+      "precise",
+      "readable",
+      "calm",
+      "engineering-minded"
+    ],
+    "visual_language": [
+      "annotated notebooks",
+      "structured technical diagrams",
+      "clean workbench scenes",
+      "marked-up code references",
+      "paper and digital hybrid knowledge systems"
+    ],
+    "format_rules": [
+      "one single visual reference image per tile",
+      "no collage",
+      "no grid",
+      "no readable text",
+      "no logos",
+      "no UI screenshot"
+    ]
+  },
+  "items": [
+    {
+      "id": "structured-engineering-notebook",
+      "title": "Structured Engineering Notebook",
+      "caption": "A disciplined notebook surface that suggests headings, diagrams, margin marks, and long-term study structure without readable text.",
+      "source": "personal engineering study workflow",
+      "tone": "calm, organized, precise",
+      "motif": "open notebook, margin marks, small technical diagrams, mechanical pencil",
+      "palette": "off-white paper, graphite gray, muted green",
+      "prompt": "Single editorial photograph of an open engineering notebook on a clean desk, with neatly organized heading-like marks, small abstract technical diagrams, margin marks, and a mechanical pencil nearby. No readable text, no logos, no UI, calm natural light, off-white paper, graphite and muted green accents, restrained engineering study atmosphere."
+    },
+    {
+      "id": "callout-layering-system",
+      "title": "Callout Layering System",
+      "caption": "A tactile reference for note hierarchy: notes, tips, warnings, and examples as layered paper signals.",
+      "source": "Obsidian callout style translated into physical annotation language",
+      "tone": "layered, academic, restrained",
+      "motif": "translucent paper tabs, annotation flags, layered technical notes",
+      "palette": "off-white, translucent gray, muted cyan, amber accent",
+      "prompt": "Single visual reference image of translucent paper tabs and colored annotation flags layered over abstract technical notes, showing hierarchy and emphasis through spacing, shadow, and color. No readable text, no logos, no UI, restrained academic styling, off-white and graphite base with muted cyan and amber accents."
+    },
+    {
+      "id": "code-and-concept-pairing",
+      "title": "Code And Concept Pairing",
+      "caption": "A paper-digital bridge for pairing code snippets with conceptual sketches and memory/data flow.",
+      "source": "C/C++ learning notes and coding workspace",
+      "tone": "practical, focused, technical",
+      "motif": "laptop with blurred code shapes, handwritten memory/data flow sketch, engineering desk",
+      "palette": "steel blue, graphite gray, off-white, muted green",
+      "prompt": "Single composed scene with a laptop showing blurred code-like shapes beside a handwritten abstract concept sketch of memory and data flow on paper. No readable code, no readable text, no logos, no UI screenshot, clean engineering workspace, precise and practical, muted steel blue and graphite palette."
+    },
+    {
+      "id": "ascii-diagram-feeling",
+      "title": "ASCII Diagram Feeling",
+      "caption": "A clean box-and-arrow structure that evokes readable text diagrams without literal text.",
+      "source": "technical explanation diagrams and ASCII-style mental models",
+      "tone": "minimal, structural, clear",
+      "motif": "whiteboard, simple boxes, arrows, sticky markers",
+      "palette": "whiteboard white, graphite marker, muted green, amber",
+      "prompt": "Single minimalist photograph of a whiteboard with simple abstract box-and-arrow technical structure drawn in dark marker, paired with a few sticky notes that imply warnings and examples. No readable text, no labels, no people, no logos, clean lab-room lighting, restrained engineering clarity."
+    },
+    {
+      "id": "engineering-decision-table",
+      "title": "Engineering Decision Table",
+      "caption": "A decision-making surface for comparisons, tradeoffs, and field explanations.",
+      "source": "engineering decision frameworks in notes",
+      "tone": "analytical, exact, useful",
+      "motif": "printed comparison table, highlighted columns, calipers, USB debugger, pen",
+      "palette": "off-white, graphite, deep green, steel blue",
+      "prompt": "Single overhead photograph of a printed comparison-table-like document with highlighted column shapes and small technical objects around it, such as calipers, a USB debugger, and a pen. No readable text, no logos, no UI, restrained color, practical decision-making atmosphere."
+    },
+    {
+      "id": "debugging-trail",
+      "title": "Debugging Trail",
+      "caption": "A methodical troubleshooting trail for embedded systems notes and failure analysis.",
+      "source": "embedded debugging workflow",
+      "tone": "methodical, focused, diagnostic",
+      "motif": "checklist notebook, blurred waveform display, cable, microcontroller board, warning tab",
+      "palette": "graphite gray, muted cyan, amber warning accent, off-white",
+      "prompt": "Single visual reference image of a methodical troubleshooting setup: notebook checklist shapes, oscilloscope-like blurred waveform display, cable, microcontroller board, and a marked warning tab. No readable labels, no readable text, no logos, focused engineering mood, muted cyan and amber accents."
+    },
+    {
+      "id": "long-term-knowledge-archive",
+      "title": "Long-Term Knowledge Archive",
+      "caption": "A durable archive mood for knowledge that can be revisited months later.",
+      "source": "personal knowledge management and long-term study archive",
+      "tone": "durable, calm, archival",
+      "motif": "index cards, binders, tablet-like dark screen, abstract note blocks",
+      "palette": "warm off-white, graphite, deep green, soft steel blue",
+      "prompt": "Single photograph of carefully arranged index cards, binders, and a tablet-like dark screen with abstract note block shapes. No readable text, no logos, no UI screenshot, calm archival feeling, durable personal knowledge system, warm off-white and graphite palette."
+    },
+    {
+      "id": "review-and-recall-surface",
+      "title": "Review And Recall Surface",
+      "caption": "A review-friendly surface for spaced repetition, checkpoints, and memory prompts.",
+      "source": "study review and recall workflow",
+      "tone": "bright, calm, organized",
+      "motif": "spaced-review cards, notebook, subtle checkmarks, colored dots, pencil",
+      "palette": "off-white, soft green, muted cyan, graphite",
+      "prompt": "Single image of spaced-review cards laid out beside a notebook, with subtle checkmark-like marks, colored dots, and a pencil. No readable text, no logos, no UI, bright but calm study environment, organized and practical."
+    },
+    {
+      "id": "technical-callout-cards",
+      "title": "Technical Callout Cards",
+      "caption": "A physical metaphor for note, tip, warning, and example callouts.",
+      "source": "Obsidian callout taxonomy translated into card language",
+      "tone": "educational, elegant, structured",
+      "motif": "four note cards, color strips, icon-like geometry",
+      "palette": "off-white, graphite, muted cyan, deep green, amber",
+      "prompt": "Single scene of four physical note cards on a desk, each visually differentiated by a color strip and simple icon-like geometric mark for note, tip, warning, and example. No readable text, no logos, no collage grid, elegant educational reference style, restrained color."
+    },
+    {
+      "id": "vehicle-control-systems-map",
+      "title": "Vehicle Control Systems Map",
+      "caption": "A vehicle-control systems reference without literal labels: sensors, controllers, arrows, and structure.",
+      "source": "vehicle stability and chassis-by-wire learning notes",
+      "tone": "systems-oriented, precise, engineering",
+      "motif": "whiteboard control blocks, sensors, arrows, controller modules, notebook edge",
+      "palette": "white, graphite, muted blue, deep green",
+      "prompt": "Single clean whiteboard-style scene showing abstract vehicle control blocks, sensor-like nodes, arrows, and controller modules, with an engineering notebook partially visible. No readable labels, no logos, no people, muted blue and green technical palette, precise systems-thinking mood."
+    },
+    {
+      "id": "readable-markdown-craft",
+      "title": "Readable Markdown Craft",
+      "caption": "A premium documentation surface that suggests markdown hierarchy, code blocks, callouts, and tables.",
+      "source": "long-form Obsidian technical documentation",
+      "tone": "readable, premium, editorial",
+      "motif": "printed markdown-like document, code-shaped gray bars, side panels, table shapes",
+      "palette": "off-white, graphite gray, muted green, steel blue",
+      "prompt": "Single close-up of a markdown-like technical document printed on paper with visible structure blocks, code-shaped gray bars, callout-like side panels, and table shapes. No readable text, no logos, no UI screenshot, premium technical documentation feel, restrained off-white and graphite palette."
+    },
+    {
+      "id": "calm-builder-desk",
+      "title": "Calm Builder Desk",
+      "caption": "A disciplined long-session workspace for building notes, code, and engineering understanding.",
+      "source": "personal engineering desk and long study sessions",
+      "tone": "warm, disciplined, focused",
+      "motif": "keyboard, notebook, microcontroller, mechanical sketch, reference tabs",
+      "palette": "warm off-white, graphite, muted green, amber lamp light",
+      "prompt": "Single editorial photograph of a focused engineering study desk: keyboard, notebook, microcontroller, mechanical sketch, and neatly placed reference tabs. No readable text, no logos, no UI screenshot, warm desk lamp, disciplined long-session atmosphere, clean practical composition."
+    }
+  ]
+}

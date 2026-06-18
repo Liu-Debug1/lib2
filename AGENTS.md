@@ -6,7 +6,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 这是一个 Obsidian 笔记仓库（Vault），内容以中文为主，聚焦两个方向：
 
-- **嵌入式系统学习**：STM32、C/C++、硬件设计、PCB、外设驱动
+- **嵌入式系统学习**：STM32、C/C++、硬件设计、PCB、外设驱动、ROS、Linux、ROS
 
 ## 目录结构
 
