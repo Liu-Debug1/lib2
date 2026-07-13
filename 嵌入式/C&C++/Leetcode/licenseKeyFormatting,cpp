@@ -1,0 +1,13 @@
+#include
+
+
+
+class Solution
+{
+public:
+    std::string licenseKeyFormatting(string s, int k)
+    {
+
+    }
+
+};

@@ -10,7 +10,7 @@
 | Ubuntu 22.04 | ROS2 Humble           |
 | Ubuntu 24.04 | ROS2 Jazzy            |
 
-### 2。 Ubuntu 镜像下载地址
+### 2.Ubuntu 镜像下载地址
 
 如果按照 **ROS1 Noetic** 或 **ROS2 Foxy** 的老教程学习，可以使用 ==Ubuntu 20.04 系列镜像==：
 
@@ -1035,12 +1035,14 @@ int main(int argc, char **argv)
    ```
 
 #### 2.2 自定义接口
-1. **ROS2 中支持自定义接口的通信方式**
-   - 话题 Topics
-   - 服务 Services
-   - 动作 Action
-   - 参数 Parameters
-   其中，除了参数之外，**话题、服务、动作都支持自定义接口**。
+1. **ROS2 中支持自定义接口的通信方式:**
+```
+话题 Topics
+服务 Services
+动作 Action
+参数 Parameters
+```
+其中，除了参数之外，**话题、服务、动作都支持自定义接口**。
 
 2. **三类自定义接口文件**
    不同通信方式对应不同的接口文件后缀：
@@ -1052,9 +1054,7 @@ int main(int argc, char **argv)
 | 动作 Action  | `.action` | 长时间任务，带反馈和结果 |
 
 3. **话题接口格式：`.msg`**
- `.msg` 文件用于定义话题通信中传递的数据结构：   `int64 num`
-  - **`int64`**：字段类型。
-  - **`num`**：字段名称。
+   `.msg` 文件用于定义话题通信中传递的数据结构：   `int64 num`
 
 4. **服务接口格式：`.srv`**
 `.srv` 文件分为 **请求** 和 **响应** 两部分，中间使用 `---` 分隔：
@@ -1065,13 +1065,16 @@ int main(int argc, char **argv)
    int64 sum
 
    请求：a + b
-        ↓
+    ↓
    响应：sum
    ```
-   重点：`---` 上面是客户端发给服务端的数据，下面是服务端返回给客户端的数据。
+重点：`---` 上面是客户端发给服务端的数据，下面是服务端返回给客户端的数据。
 
 5. **动作接口格式：`.action`**
    `.action` 文件通常包含 **目标、结果、反馈** 三部分，每部分之间也用 `---` 分隔：
+   - **目标 Goal**：希望动作完成什么任务，例如 `order`。
+   - **结果 Result**：任务最终完成后的结果，例如 `sequence`。
+   - **反馈 Feedback**：任务执行过程中的中间状态，例如 `partial_sequence`。
    ```text
    int32 order
    ---
@@ -1079,10 +1082,7 @@ int main(int argc, char **argv)
    ---
    int32[] partial_sequence
    ```
-   三段含义：
-   - **目标 Goal**：希望动作完成什么任务，例如 `order`。
-   - **结果 Result**：任务最终完成后的结果，例如 `sequence`。
-   - **反馈 Feedback**：任务执行过程中的中间状态，例如 `partial_sequence`。
+   
 
 6. **自定义接口如何被程序调用**
    自定义接口文件不能直接被 C++ 或 Python 使用，需要先经过 ROS2 的 IDL 转换流程：
@@ -1197,6 +1197,7 @@ ros2 interface show village_interface/msg/Novel
 #### 3.1 服务定义
 
 **定义：**
+
 1. 服务 = 请求 + 响应
 2. 服务 = 服务端 Server + 客户端 Clinet 
 

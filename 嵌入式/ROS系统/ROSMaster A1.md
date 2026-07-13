@@ -96,7 +96,6 @@ rclcpp::shutdown()
 
 ### 线速度标定
 
-源码解析
 ```text
 calibrate_linear 节点
         │ 发布 /cmd_vel
@@ -116,19 +115,7 @@ calibrate_linear 计算位移误差
         └── 到达目标：发布零速度
 ```
 
-| Python                | C++                           | 含义                 |
-| --------------------- | ----------------------------- | ------------------ |
-| `self.xxx`            | `this->xxx_`                  | 访问类成员              |
-| `def on_timer(self):` | `void onTimer()`              | 定时器回调函数            |
-| `Twist()`             | `geometry_msgs::msg::Twist{}` | 创建速度消息             |
-| `sqrt()`              | `std::sqrt()`                 | 计算平方根              |
-| `copysign(a, b)`      | `std::copysign(a, b)`         | 取 `a` 的大小和 `b` 的符号 |
-| `try / except`        | `try / catch`                 | 异常处理               |
-| `print()`             | `RCLCPP_INFO()`               | ROS 2 日志输出         |
-| `True / False`        | `true / false`                | 布尔值                |
 
-
-**掌握位移和误差公式**：
 
 从 TF 中获取当前位置 $(x,y)$，与起点 $(x_0,y_0)$ 计算二维直线距离：
 
@@ -150,10 +137,6 @@ $$
 
 ### 角速度标定
 
-> [!abstract] 核心结论
-> 教程称为“角速度标定”，实际主要校准的是**里程计累计旋转角度的比例系数**。标定节点发布 `/cmd_vel.angular.z`，从 `odom` 与 `base_footprint` 的 TF 中获取姿态，通过累计偏航角判断是否完成目标旋转角度。
-
-源码解析：
 ```text
 calibrate_angular 节点
         │ 发布 /cmd_vel.angular.z
@@ -173,62 +156,22 @@ calibrate_angular 节点
         └── 到达目标：发布零速度
 ```
 
-1. **理解主要参数**
+| 参数                              | 作用          | 说明                   |
+| ------------------------------- | ----------- | -------------------- |
+| `test_angle`                    | 目标旋转角度      | RQT 中输入度，程序内部转换为弧度   |
+| `speed`                         | 指令角速度大小     | `rad/s`              |
+| `tolerance`                     | 程序内部的角度停止容差 | 应与内部弧度单位保持一致         |
+| `odom_angular_scale_correction` | 里程计旋转角度比例系数 | 无量纲                  |
+| `start_test`                    | 标定启动开关      | `true` 时开始旋转         |
+| `base_frame`                    | 车体基坐标系      | 通常为 `base_footprint` |
+| `odom_frame`                    | 里程计坐标系      | 通常为 `odom`           |
 
-| 参数 | 作用 | 单位/说明 |
-| --- | --- | --- |
-| `test_angle` | 目标旋转角度 | RQT 中输入度，程序内部转换为弧度 |
-| `speed` | 指令角速度大小 | `rad/s` |
-| `tolerance` | 程序内部的角度停止容差 | 应与内部弧度单位保持一致 |
-| `odom_angular_scale_correction` | 里程计旋转角度比例系数 | 无量纲 |
-| `start_test` | 标定启动开关 | `true` 时开始旋转 |
-| `base_frame` | 车体基坐标系 | 通常为 `base_footprint` |
-| `odom_frame` | 里程计坐标系 | 通常为 `odom` |
 
-2. **掌握角度与弧度转换**
-
-RQT 中的 `test_angle` 使用角度，ROS 2 控制和计算通常使用弧度：
-
-$$
-\theta_{rad}=\theta_{deg}\frac{\pi}{180}
-$$
-
-Python 与 C++ 对应关系：
-
-| Python | C++ |
-| --- | --- |
-| `radians(test_angle)` | `test_angle * kPi / 180.0` |
-| `degrees(angle)` | `angle * 180.0 / kPi` |
-| `move_cmd.angular.z` | `move_cmd.angular.z` |
-| `copysign(speed, error)` | `std::copysign(speed, error)` |
-
-其中 C++17 可自行定义：
-
-```cpp
-constexpr double kPi = 3.14159265358979323846;
-```
-
-3. **理解四元数转换为偏航角**
-
-TF 返回姿态四元数 $(x,y,z,w)$。源码使用 `PyKDL` 转为 Roll、Pitch、Yaw，并取绕 Z 轴旋转的 `yaw`：
-
-```python
-angle_rot = cacl_rot.GetRPY()[2]
-```
-
-ROS 2 C++ 中可写为：
-
-```cpp
-const double yaw = tf2::getYaw(transform.transform.rotation);
-```
-
-| 姿态角 | 含义 | 车辆场景 |
-| --- | --- | --- |
-| Roll | 绕 X 轴旋转 | 车身侧倾 |
-| Pitch | 绕 Y 轴旋转 | 车身俯仰 |
-| Yaw | 绕 Z 轴旋转 | 车辆转向，角速度标定使用该值 |
-
-4. **必须理解角度归一化**
+| 姿态角   | 含义      | 车辆场景           |
+| ----- | ------- | -------------- |
+| Roll  | 绕 X 轴旋转 | 车身侧倾           |
+| Pitch | 绕 Y 轴旋转 | 车身俯仰           |
+| Yaw   | 绕 Z 轴旋转 | 车辆转向，角速度标定使用该值 |
 
 `yaw` 通常限制在 $[-\pi,\pi]$。当角度从 $179^\circ$ 变化到 $-179^\circ$ 时，直接相减会错误得到 $-358^\circ$，实际只旋转了 $2^\circ$。
 
@@ -251,8 +194,6 @@ const double delta_angle = angles::normalize_angle(current_yaw - previous_yaw_);
 turn_angle_ += odom_angular_scale_correction_ * delta_angle;
 ```
 
-> [!note]
-> 单次 `yaw` 只能表示有限范围内的朝向，无法直接表示“已经连续转过 360°”。程序必须累计每个控制周期的角度增量。
 
 5. **理解误差与旋转方向控制**
 
@@ -262,7 +203,6 @@ $$
 e=\theta_{turn}-\theta_{target}
 $$
 
-教程源码使用：
 
 ```python
 move_cmd.angular.z = copysign(self.speed, self.error)
@@ -522,3 +462,70 @@ ros2 run rqt_tf_tree rqt_tf_tree
    5. 能解释 `robot_description`、`/joint_states`、`robot_state_publisher`、TF 和 RViz 的关系。
    6. 能使用 Xacro 减少重复模型代码，并将其展开为标准 URDF 检查。
    7. 能根据“显示异常、TF 缺失、运动轴错误、仿真不稳定”分类排查问题。
+
+
+
+
+### TF树
+#### 1.TF树介绍
+
+**TF树是ROS中描述多个坐标系之间空间关系的数据结构**：
+>某个坐标系相对于另一个坐标系在哪里、朝向如何？
+
+- 存在一个根坐标系
+- 父子坐标系关系是一对多
+- 任意两个坐标系应只存在唯一的变换路径
+- 不能形成闭环
+
+#### 2.TF中的变换
+
+ 1. 平移
+ $$
+\mathbf{t} =
+\begin{bmatrix}
+x \\
+y \\
+z
+\end{bmatrix}
+$$>
+>  \(x\)：沿父坐标系 X 轴移动，单位 `m`
+>  \(y\)：沿父坐标系 Y 轴移动，单位 `m`
+>  \(z\)：沿父坐标系 Z 轴移动，单位 `m`
+ 
+ 2. 旋转
+$$
+\mathbf{q}=(q_x,q_y,q_z,q_w)
+$$
+
+
+
+
+
+#### 3.常见坐标系
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
