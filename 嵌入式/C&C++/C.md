@@ -786,11 +786,138 @@ int main(void) {
 
 裸机 C 开发中函数指针很实用，三个最常见的场景：
 
-| 场景 | 说明 |
-|:-----|:-----|
-| 中断回调 | 把用户处理函数注册到驱动层，中断触发时回调 |
+| 场景    | 说明                                     |
+| :---- | :------------------------------------- |
+| 中断回调  | 把用户处理函数注册到驱动层，中断触发时回调                  |
 | 外设驱动表 | 用结构体 + 函数指针做 HAL 抽象，统一 SPI/I2C/UART 接口 |
-| 裸机状态机 | 用函数指针数组实现状态跳转，比 `switch-case` 更好维护 |
+| 裸机状态机 | 用函数指针数组实现状态跳转，比 `switch-case` 更好维护     |
 
 > [!NOTE] C 语言 vs C++
 > 以上是 C 语言中的函数指针。在 C++ 中，函数指针还有一种特殊形式——**成员函数指针**（`void (Dog::*pb)() = &Dog::bark;`），以及更现代的 `std::function` + lambda 替代方案。这些属于 C++ 范畴，详见 C++ 相关笔记。
+
+
+
+
+
+
+
+
+# 十、库函数
+
+## 1. \<ctype>
+`<ctype.h>` 提供字符分类与大小写转换函数，适合处理单字节字符（通常是 ASCII 字符）。使用前包含：
+```c
+#include <ctype.h>
+```
+
+> [!NOTE]
+> 分类函数返回 **非 0** 表示条件成立，返回 `0` 表示不成立；不要把非 0 误认为必须等于 `1`。
+
+### 1.1 函数总览
+
+| 函数 | 作用 |
+|---|---|
+| `isalnum()` | 判断是否为字母或十进制数字。 |
+| `isalpha()` | 判断是否为英文字母。 |
+| `iscntrl()` | 判断是否为控制字符。 |
+| `isdigit()` | 判断是否为十进制数字。 |
+| `isgraph()` | 判断是否为可显示图形字符，不包含空格。 |
+| `islower()` | 判断是否为小写字母。 |
+| `isprint()` | 判断是否为可打印字符，包含空格。 |
+| `ispunct()` | 判断是否为标点符号。 |
+| `isspace()` | 判断是否为空白字符。 |
+| `isupper()` | 判断是否为大写字母。 |
+| `isxdigit()` | 判断是否为十六进制数字。 |
+| `tolower()` | 将大写字母转换为小写。 |
+| `toupper()` | 将小写字母转换为大写。 |
+
+### 1.2 字符分类函数
+
+`isalnum()`：判断是否为字母或数字。
+```c
+const int gLC_CharIsAlnum_i = isalnum('A');  // gLC_CharIsAlnum_i != 0
+isalnum(字符);
+```
+
+`isalpha()`：判断是否为英文字母。
+```c
+const int gLC_CharIsAlpha_i = isalpha('A');  // gLC_CharIsAlpha_i != 0
+isalpha(字符);
+```
+
+`iscntrl()`：判断是否为控制字符。
+```c
+const int gLC_CharIsCntrl_i = iscntrl('\n');  // gLC_CharIsCntrl_i != 0
+iscntrl(字符);
+```
+
+`isdigit()`：判断是否为十进制数字 `0`~`9`。
+```c
+const int gLC_CharIsDigit_i = isdigit('8');  // gLC_CharIsDigit_i != 0
+isdigit(字符);
+```
+
+`isgraph()`：判断是否为可显示图形字符，不包含空格。
+```c
+const int gLC_CharIsGraph_i = isgraph('!');  // gLC_CharIsGraph_i != 0
+isgraph(字符);
+```
+
+`islower()`：判断是否为小写字母。
+```c
+const int gLC_CharIsLower_i = islower('a');  // gLC_CharIsLower_i != 0
+islower(字符);
+```
+
+`isprint()`：判断是否为可打印字符，包含空格。
+```c
+const int gLC_CharIsPrint_i = isprint(' ');  // gLC_CharIsPrint_i != 0
+isprint(字符);
+```
+
+`ispunct()`：判断是否为标点符号。
+```c
+const int gLC_CharIsPunct_i = ispunct('_');  // gLC_CharIsPunct_i != 0
+ispunct(字符);
+```
+
+`isspace()`：判断是否为空白字符。
+```c
+const int gLC_CharIsSpace_i = isspace('\t');  // gLC_CharIsSpace_i != 0
+isspace(字符);
+```
+
+`isupper()`：判断是否为大写字母。
+```c
+const int gLC_CharIsUpper_i = isupper('A');  // gLC_CharIsUpper_i != 0
+isupper(字符);
+```
+
+`isxdigit()`：判断是否为十六进制数字。
+```c
+const int gLC_CharIsXdigit_i = isxdigit('F');  // gLC_CharIsXdigit_i != 0
+isxdigit(字符);
+```
+
+### 1.3 大小写转换
+
+`tolower()`：将大写字母转换为小写。
+```c
+const char gLC_CharLower_c = (char)tolower('A');  // gLC_CharLower_c == 'a'
+tolower(字符);
+```
+
+`toupper()`：将小写字母转换为大写。
+```c
+const char gLC_CharUpper_c = (char)toupper('a');  // gLC_CharUpper_c == 'A'
+toupper(字符);
+```
+
+
+
+
+
+
+
+
+

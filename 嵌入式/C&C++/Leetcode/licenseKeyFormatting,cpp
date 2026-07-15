@@ -1,13 +1,41 @@
-#include
-
-
+#include<string>
+#include<cctype>
+#include <algorithm>
 
 class Solution
 {
+
 public:
-    std::string licenseKeyFormatting(string s, int k)
+    std::string licenseKeyFormatting(std::string s, int k)
     {
+        std::size_t groupCount(0U);
+        std::string contain{};
+        std::string output{};
+        const std::size_t groupSize = static_cast<std::size_t>(k);
 
+        //1.单个字符压入栈中，破折号不保存, 小写记录为大写
+        for (const char char_: s)
+        {
+            if (char_ != '-')
+            {
+                contain.push_back(static_cast<char>(toupper(static_cast<int>(char_))));
+            }
+        }
+        
+        //2.按照 K 个字符的要求，从栈顶弹出，满K个加入一个破折号，知道栈为空
+        while (!contain.empty())
+        {
+            output.push_back(contain.back());
+            contain.pop_back();
+            groupCount++;
+
+            if(groupCount == groupSize && contain.empty())
+            {
+                groupCount = 0U;
+                output.push_back('-');
+            }
+        }
+        std::reverse(output.begin(),output.end());
+        return output;
     }
-
 };

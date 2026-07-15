@@ -7,7 +7,6 @@ tags:
 date: 2026-05-13
 ---
 
-# 一、C++
 
 ## 1.基础篇
 
@@ -132,12 +131,27 @@ for (int i = 0; i < 10; i++) { }
 ```
 
 #### 1.2.2 C++初始化方式新增，利用`()`，`{}`
-`()`初始化对象：
+
+**`()`初始化对象：**
+```
  - 基本类型
  - string类型
+```
 
-`{}`初始化对象：
+注意初始化空对象不可以用`( )`，会被定义为函数
+
+| 写法                           | 实际含义                  |
+| ---------------------------- | --------------------- |
+| `std::string text("hello");` | 创建字符串对象，内容为 `"hello"` |
+| `std::size_t count(0U);`     | 创建整数对象，值为 `0`         |
+| `std::string text;`          | 创建空字符串对象              |
+| `std::string text{};`        | 创建空字符串对象              |
+| `std::string text();`        | 声明函数，不创建对象            |
+
+**`{}`初始化对象：**
+```
  - 初始化一切（数组、结构体、类等都可）
+```
 
 ```cpp
 int Num1(1); //初始化为1
@@ -152,9 +166,9 @@ char a[20]{"hello world!"};//字符或字符串只允许用花括号，不允许
 
 ### 1.3 bool 类型
 
-- 只有真和假，打印值只有（0，1）
-- 占用1个字节
-- 一般用为函数返回值或者标志位
+1. 只有真和假，打印值只有（0，1）
+2. 占用1个字节
+3. 一般用为函数返回值或者标志位
 ```cpp
 bool flag = true;   // true  = 非零值
 bool ok = false;    // false = 0
@@ -168,11 +182,12 @@ const double PI = 3.14159;   // 不可修改的常量
 PI = 3.0;                    // ❌ 编译报错
 ```
 
-| 用法 | 说明 |
-|:-----|:-----|
-| `const int N = 100;` | 定义常量，替代 C 的 `#define N 100` |
-| `const char *p` | 指向常量字符串的指针，内容不可通过 p 修改 |
-| `void func(const Motor &m)` | 传引用 + const：不拷贝、不修改 |
+| 用法                          | 说明                          |
+| :-------------------------- | :-------------------------- |
+| `const int N = 100;`        | 定义常量，替代 C 的 `#define N 100` |
+| `const char *p`             | 指向常量字符串的指针，内容不可通过 p 修改      |
+| `void func(const Motor &m)` | 传引用 + const：不拷贝、不修改         |
+
 
 > `const` 比 `#define` 更安全——有类型检查，可调试。嵌入式开发中 `const` 还能把数据放入 FLASH（`.rodata`），节省 RAM。
 
@@ -1821,7 +1836,7 @@ int main() {
 
 ### 1.21 函数指针
 
-> 普通（非成员）函数指针的语法和用法详见 [[C语言基础#7.7 函数指针|C语言基础 - 函数指针]]，本节只讲 C++ 特有的部分。
+> 普通（非成员）函数指针的语法和用法详见 [[C#7.7 函数指针|C语言基础 - 函数指针]]，本节只讲 C++ 特有的部分。
 
 #### 1.21.1 C++ 的两种函数指针
 
@@ -4618,9 +4633,9 @@ for (const auto& row : mat) {
 
 ### 4.3 字符串与数字转换
 
-头文件 `#include <string>`。
+需要包含头文件 `#include <string>`。
 
-#### 4.3.1 数字 → 字符串：to_string
+#### 4.3.1 数字 → 字符串
 
 ```cpp
 string s = to_string(123213);       // "123213"
@@ -4636,7 +4651,7 @@ printf("%s\n", s.c_str());          // .c_str() 把 string 转成 const char*
 cout << s <<endl;
 ```
 
-#### 4.3.2 字符串 → 数字：stoi / stod / stol 系列
+#### 4.3.2 字符串 → 数字
 
 | 函数 | 作用 |
 |------|------|
@@ -4660,9 +4675,415 @@ long double ld = stold("3.14");// 3.14
 
 ## 5.库函数
 
-max(a,b)，返回较大值
-string.find(':')找到字符位置，解析日志log
-string.substr(pos，len)获取子字符串，len是长度
+
+###  5.1\<string>
+
+`<string>` 提供 `std::string`，用于管理可变长度的 C++ 字符串。使用时需要包含：
+```cpp
+#include <string>
+```
+
+#### 5.1.1 成员函数总览
+
+| 函数                                           | 作用              |
+| -------------------------------------------- | --------------- |
+| `size()` / `length()`                        | 返回字符串长度。        |
+| `empty()`                                    | 判断字符串是否为空。      |
+| `operator[]` / `at()` / `back()`             | 访问指定位置或末尾字符。    |
+| `substr()`                                   | 截取子字符串。         |
+| `append()` / `push_back()`                   | 在末尾追加字符串或字符。    |
+| `insert()` / `replace()`                     | 插入或替换指定位置内容。    |
+| `erase()` / `pop_back()` / `clear()`         | 删除部分、末尾或全部字符。   |
+| `find()` / `rfind()`                         | 从左或从右查找子串。      |
+| `find_first_of()` / `find_last_of()`         | 查找属于指定字符集合的字符。  |
+| `find_first_not_of()` / `find_last_not_of()` | 查找不属于指定字符集合的字符。 |
+| `compare()`                                  | 按字典序比较两个字符串。    |
+| `c_str()` / `data()`                         | 获取内部字符数据指针。     |
+
+#### 5.1.2 长度与状态
+
+`size()`：返回字符串字符数量。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const std::size_t lStr_Length_uz = gStr_Text_str.size();  // lStr_Length_uz == 3U
+text.size();
+```
+
+`length()`：与 `size()` 等价。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const std::size_t lStr_Length_uz = gStr_Text_str.length();  // lStr_Length_uz == 3U
+text.length();
+```
+
+`empty()`：判断字符串是否为空。
+```cpp
+const std::string gStr_Text_str{};
+const bool lStr_IsEmpty_bl = gStr_Text_str.empty();  // lStr_IsEmpty_bl == true
+text.empty();
+```
+
+`clear()`：删除全部字符。
+```cpp
+std::string gStr_Message_str{"CANFD"};
+gStr_Message_str.clear();  // gStr_Message_str == ""
+text.clear();
+```
+
+#### 5.1.3 字符访问与子串
+
+`operator[]`：按下标访问字符。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const char lStr_FirstChar_c = gStr_Text_str[0U];  // lStr_FirstChar_c == 'C'
+text[下标];
+```
+
+`at()`：按下标访问字符并检查边界。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const char lStr_FirstChar_c = gStr_Text_str.at(0U);  // lStr_FirstChar_c == 'C'
+text.at(下标);
+```
+
+`back()`：获取末尾字符。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const char lStr_LastChar_c = gStr_Text_str.back();  // lStr_LastChar_c == 'N'
+text.back();
+```
+
+`substr()`：从指定位置截取子字符串。
+```cpp
+const std::string gStr_Text_str{"CANFD"};
+const std::string lStr_Substring_str = gStr_Text_str.substr(0U, 3U);  // lStr_Substring_str == "CAN"
+text.substr(起始下标, 字符数量);
+```
+
+#### 5.1.4 追加、插入与删除
+
+`append()`：在末尾追加字符串。
+```cpp
+std::string gStr_Frame_str{"CAN"};
+gStr_Frame_str.append("FD");  // gStr_Frame_str == "CANFD"
+text.append(追加字符串);
+```
+
+`push_back()`：在末尾追加单个字符。
+```cpp
+std::string gStr_Frame_str{"CAN"};
+gStr_Frame_str.push_back('!');  // gStr_Frame_str == "CAN!"
+text.push_back(字符);
+```
+
+`insert()`：在指定位置插入字符串。
+```cpp
+std::string gStr_Frame_str{"CANFD"};
+gStr_Frame_str.insert(3U, "_");  // gStr_Frame_str == "CAN_FD"
+text.insert(插入下标, 插入字符串);
+```
+
+`replace()`：用新内容替换指定范围。
+```cpp
+std::string gStr_Frame_str{"CANFD"};
+gStr_Frame_str.replace(0U, 3U, "LIN");  // gStr_Frame_str == "LINFD"
+text.replace(起始下标, 替换数量, 新字符串);
+```
+
+`erase()`：删除指定范围字符。
+```cpp
+std::string gStr_Frame_str{"CAN_FD"};
+gStr_Frame_str.erase(3U, 1U);  // gStr_Frame_str == "CANFD"
+text.erase(起始下标, 删除数量);
+```
+
+`pop_back()`：删除末尾一个字符。
+```cpp
+std::string gStr_Frame_str{"CAN!"};
+gStr_Frame_str.pop_back();  // gStr_Frame_str == "CAN"
+text.pop_back();
+```
+
+#### 5.1.5 查找与比较
+
+`find()`：从左向右查找子串。
+```cpp
+const std::string gStr_Text_str{"CANFD"};
+const std::size_t lStr_Pos_uz = gStr_Text_str.find("AN");  // lStr_Pos_uz == 1U
+text.find(目标字符串);
+```
+
+`rfind()`：从右向左查找子串。
+```cpp
+const std::string gStr_Text_str{"CANAN"};
+const std::size_t lStr_Pos_uz = gStr_Text_str.rfind("AN");  // lStr_Pos_uz == 3U
+text.rfind(目标字符串);
+```
+
+`find_first_of()`：查找首个属于字符集合的字符。
+```cpp
+const std::string gStr_Text_str{"CANFD"};
+const std::size_t lStr_Pos_uz = gStr_Text_str.find_first_of("AEIOU");  // lStr_Pos_uz == 1U
+text.find_first_of(字符集合);
+```
+
+`find_last_of()`：查找最后一个属于字符集合的字符。
+```cpp
+const std::string gStr_Text_str{"CANFD"};
+const std::size_t lStr_Pos_uz = gStr_Text_str.find_last_of("AEIOU");  // lStr_Pos_uz == 1U
+text.find_last_of(字符集合);
+```
+
+`find_first_not_of()`：查找首个不属于字符集合的字符。
+```cpp
+const std::string gStr_Text_str{"  CAN"};
+const std::size_t lStr_Pos_uz = gStr_Text_str.find_first_not_of(' ');  // lStr_Pos_uz == 2U
+text.find_first_not_of(字符集合);
+```
+
+`find_last_not_of()`：查找最后一个不属于字符集合的字符。
+```cpp
+const std::string gStr_Text_str{"CAN  "};
+const std::size_t lStr_Pos_uz = gStr_Text_str.find_last_not_of(' ');  // lStr_Pos_uz == 2U
+text.find_last_not_of(字符集合);
+```
+
+`compare()`：按字典序比较字符串。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const int lStr_Result_i = gStr_Text_str.compare("CAN");  // lStr_Result_i == 0
+text.compare(比较字符串);
+```
+
+#### 5.1.6 C 接口互操作
+
+`c_str()`：获取以 `\0` 结尾的 C 风格字符串。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const char* lStr_Text_cp = gStr_Text_str.c_str();  // lStr_Text_cp 指向 "CAN\\0"
+text.c_str();
+```
+
+`data()`：获取内部字符数据指针。
+```cpp
+const std::string gStr_Text_str{"CAN"};
+const char* lStr_Data_cp = gStr_Text_str.data();  // lStr_Data_cp 指向 "CAN"
+text.data();
+```
+
+### 5.2\<algorithm>
+
+`<algorithm>` 提供基于迭代器的通用算法，适用于支持迭代器的容器。大多数算法不自行分配内存，操作范围通常写为 `[begin(), end())`：包含起点，不包含终点。
+```cpp
+#include <algorithm>
+```
+
+#### 5.2.1 函数总览
+
+| 函数 | 作用 |
+|---|---|
+| `std::sort()` | 对区间进行非稳定排序。 |
+| `std::partial_sort()` | 仅使前 `n` 个元素有序，适合只关注 Top N。 |
+| `std::stable_sort()` | 稳定排序，保留相等元素的原相对顺序。 |
+| `std::find()` | 查找首个等于指定值的元素。 |
+| `std::find_if()` | 查找首个满足谓词条件的元素。 |
+| `std::binary_search()` | 在有序区间中二分判断元素是否存在。 |
+| `std::copy()` | 将一个区间复制到目标区间。 |
+| `std::equal()` | 比较两个区间的元素是否相等。 |
+| `std::reverse()` | 原地反转区间元素顺序。 |
+| `std::fill()` | 将区间内全部元素赋为同一个值。 |
+| `std::replace()` | 原地将区间内指定值替换为新值。 |
+| `std::for_each()` | 对区间内每个元素执行操作。 |
+| `std::next_permutation()` | 生成字典序下一个排列。 |
+| `std::prev_permutation()` | 生成字典序上一个排列。 |
+| `std::merge()` | 将两个有序区间合并到目标区间。 |
+| `std::inplace_merge()` | 原地合并同一区间内两个相邻的有序子区间。 |
+| `std::set_union()` | 计算两个有序区间的并集。 |
+| `std::set_intersection()` | 计算两个有序区间的交集。 |
+| `std::set_difference()` | 计算两个有序区间的差集。 |
+| `std::min_element()` | 返回区间最小元素的迭代器。 |
+| `std::max_element()` | 返回区间最大元素的迭代器。 |
+| `std::accumulate()` | 累加区间元素，头文件为 `<numeric>`。 |
+
+#### 5.2.2 排序与部分排序
+
+`std::sort()`：将区间按升序原地排序。
+```cpp
+std::vector<int> gVec_Value_vec{5, 2, 9, 1};
+std::sort(gVec_Value_vec.begin(), gVec_Value_vec.end());  // gVec_Value_vec == {1, 2, 5, 9}
+std::sort(起始迭代器, 结束迭代器);
+```
+
+`std::partial_sort()`：仅将最小的前若干个元素排好序。
+```cpp
+std::vector<int> gVec_Value_vec{5, 2, 9, 1};
+std::partial_sort(gVec_Value_vec.begin(), gVec_Value_vec.begin() + 2, gVec_Value_vec.end());  // 前两个元素为 {1, 2}
+std::partial_sort(起始迭代器, 排序结束位置, 区间结束迭代器);
+```
+
+`std::stable_sort()`：稳定地对区间排序，保留相等元素的原相对顺序。
+```cpp
+std::vector<int> gVec_Value_vec{5, 2, 9, 1};
+std::stable_sort(gVec_Value_vec.begin(), gVec_Value_vec.end());  // gVec_Value_vec == {1, 2, 5, 9}
+std::stable_sort(起始迭代器, 结束迭代器);
+```
+
+#### 5.2.3 查找与极值
+
+`std::find()`：查找首个等于目标值的元素。
+```cpp
+const std::vector<int> gVec_Value_vec{1, 3, 5};
+const auto lVec_Value_it = std::find(gVec_Value_vec.begin(), gVec_Value_vec.end(), 3);  // *lVec_Value_it == 3
+std::find(起始迭代器, 结束迭代器, 目标值);
+```
+
+`std::find_if()`：查找首个满足条件的元素。
+```cpp
+const std::vector<int> gVec_Value_vec{1, 3, 6};
+const auto lVec_Value_it = std::find_if(gVec_Value_vec.begin(), gVec_Value_vec.end(), [](int value) { return (value % 2) == 0; });  // *lVec_Value_it == 6
+std::find_if(起始迭代器, 结束迭代器, 判断条件);
+```
+
+`std::binary_search()`：在有序区间中判断目标值是否存在。
+```cpp
+const std::vector<int> gVec_Value_vec{1, 3, 5};
+const bool lVec_Exists_bl = std::binary_search(gVec_Value_vec.begin(), gVec_Value_vec.end(), 3);  // lVec_Exists_bl == true
+std::binary_search(起始迭代器, 结束迭代器, 目标值);
+```
+
+`std::min_element()`：返回最小元素的迭代器。
+```cpp
+const std::vector<int> gVec_Value_vec{5, 2, 9};
+const auto lVec_Min_it = std::min_element(gVec_Value_vec.begin(), gVec_Value_vec.end());  // *lVec_Min_it == 2
+std::min_element(起始迭代器, 结束迭代器);
+```
+
+`std::max_element()`：返回最大元素的迭代器。
+```cpp
+const std::vector<int> gVec_Value_vec{5, 2, 9};
+const auto lVec_Max_it = std::max_element(gVec_Value_vec.begin(), gVec_Value_vec.end());  // *lVec_Max_it == 9
+std::max_element(起始迭代器, 结束迭代器);
+```
+
+#### 5.2.4 复制与原地修改
+
+`std::copy()`：将一个区间复制到目标区间。
+```cpp
+const std::vector<int> gVec_Source_vec{1, 2, 3};
+std::vector<int> gVec_Target_vec(3U);
+std::copy(gVec_Source_vec.begin(), gVec_Source_vec.end(), gVec_Target_vec.begin());  // gVec_Target_vec == {1, 2, 3}
+std::copy(源起始迭代器, 源结束迭代器, 目标起始迭代器);
+```
+
+`std::reverse()`：原地反转区间元素顺序。
+```cpp
+std::vector<int> gVec_Value_vec{1, 2, 3};
+std::reverse(gVec_Value_vec.begin(), gVec_Value_vec.end());  // gVec_Value_vec == {3, 2, 1}
+std::reverse(起始迭代器, 结束迭代器);
+```
+
+`std::fill()`：将区间内元素全部赋为同一个值。
+```cpp
+std::vector<int> gVec_Value_vec{1, 2, 3};
+std::fill(gVec_Value_vec.begin(), gVec_Value_vec.end(), 0);  // gVec_Value_vec == {0, 0, 0}
+std::fill(起始迭代器, 结束迭代器, 填充值);
+```
+
+`std::replace()`：原地将指定旧值替换为新值。
+```cpp
+std::vector<int> gVec_Value_vec{0, 1, 0};
+std::replace(gVec_Value_vec.begin(), gVec_Value_vec.end(), 0, 99);  // gVec_Value_vec == {99, 1, 99}
+std::replace(起始迭代器, 结束迭代器, 旧值, 新值);
+```
+
+`std::for_each()`：对区间内每个元素执行操作。
+```cpp
+std::vector<int> gVec_Value_vec{1, 2, 3};
+std::for_each(gVec_Value_vec.begin(), gVec_Value_vec.end(), [](int& value) { ++value; });  // gVec_Value_vec == {2, 3, 4}
+std::for_each(起始迭代器, 结束迭代器, 操作函数);
+```
+
+#### 5.2.5 比较、排列与归并
+
+`std::equal()`：比较两个区间的元素是否相等。
+```cpp
+const std::vector<int> gVec_First_vec{1, 2};
+const std::vector<int> gVec_Second_vec{1, 2};
+const bool lVec_IsEqual_bl = std::equal(gVec_First_vec.begin(), gVec_First_vec.end(), gVec_Second_vec.begin());  // lVec_IsEqual_bl == true
+std::equal(第一区间起始, 第一区间结束, 第二区间起始);
+```
+
+`std::next_permutation()`：生成字典序下一个排列。
+```cpp
+std::vector<int> gVec_Order_vec{1, 2, 3};
+const bool lVec_HasNext_bl = std::next_permutation(gVec_Order_vec.begin(), gVec_Order_vec.end());  // gVec_Order_vec == {1, 3, 2}
+std::next_permutation(起始迭代器, 结束迭代器);
+```
+
+`std::prev_permutation()`：生成字典序上一个排列。
+```cpp
+std::vector<int> gVec_Order_vec{1, 3, 2};
+const bool lVec_HasPrevious_bl = std::prev_permutation(gVec_Order_vec.begin(), gVec_Order_vec.end());  // gVec_Order_vec == {1, 2, 3}
+std::prev_permutation(起始迭代器, 结束迭代器);
+```
+
+`std::merge()`：将两个有序区间合并到目标区间。
+```cpp
+const std::vector<int> gVec_Left_vec{1, 3};
+const std::vector<int> gVec_Right_vec{2, 4};
+std::vector<int> gVec_Merged_vec(4U);
+std::merge(gVec_Left_vec.begin(), gVec_Left_vec.end(), gVec_Right_vec.begin(), gVec_Right_vec.end(), gVec_Merged_vec.begin());  // gVec_Merged_vec == {1, 2, 3, 4}
+std::merge(第一区间起始, 第一区间结束, 第二区间起始, 第二区间结束, 输出起始迭代器);
+```
+
+`std::inplace_merge()`：原地合并同一区间内两个相邻的有序子区间。
+```cpp
+std::vector<int> gVec_Value_vec{1, 3, 2, 4};
+std::inplace_merge(gVec_Value_vec.begin(), gVec_Value_vec.begin() + 2, gVec_Value_vec.end());  // gVec_Value_vec == {1, 2, 3, 4}
+std::inplace_merge(起始迭代器, 中间迭代器, 结束迭代器);
+```
+
+#### 5.2.6 集合算法
+
+`std::set_union()`：计算两个有序区间的并集。
+```cpp
+const std::vector<int> gVec_First_vec{1, 2};
+const std::vector<int> gVec_Second_vec{2, 3};
+std::vector<int> gVec_Result_vec(4U);
+const auto lVec_ResultEnd_it = std::set_union(gVec_First_vec.begin(), gVec_First_vec.end(), gVec_Second_vec.begin(), gVec_Second_vec.end(), gVec_Result_vec.begin());  // 有效结果为 {1, 2, 3}
+std::set_union(第一区间起始, 第一区间结束, 第二区间起始, 第二区间结束, 输出起始迭代器);
+```
+
+`std::set_intersection()`：计算两个有序区间的交集。
+```cpp
+const std::vector<int> gVec_First_vec{1, 2, 4};
+const std::vector<int> gVec_Second_vec{2, 3, 4};
+std::vector<int> gVec_Result_vec(3U);
+const auto lVec_ResultEnd_it = std::set_intersection(gVec_First_vec.begin(), gVec_First_vec.end(), gVec_Second_vec.begin(), gVec_Second_vec.end(), gVec_Result_vec.begin());  // 有效结果为 {2, 4}
+std::set_intersection(第一区间起始, 第一区间结束, 第二区间起始, 第二区间结束, 输出起始迭代器);
+```
+
+`std::set_difference()`：计算第一个有序区间相对于第二个区间的差集。
+```cpp
+const std::vector<int> gVec_First_vec{1, 2, 4};
+const std::vector<int> gVec_Second_vec{2, 3};
+std::vector<int> gVec_Result_vec(3U);
+const auto lVec_ResultEnd_it = std::set_difference(gVec_First_vec.begin(), gVec_First_vec.end(), gVec_Second_vec.begin(), gVec_Second_vec.end(), gVec_Result_vec.begin());  // 有效结果为 {1, 4}
+std::set_difference(第一区间起始, 第一区间结束, 第二区间起始, 第二区间结束, 输出起始迭代器);
+```
+
+#### 5.2.7 累加算法
+
+`std::accumulate()`：累加区间元素，位于 `<numeric>`。
+```cpp
+#include <numeric>
+
+const std::vector<int> gVec_Sample_vec{1, 2, 3};
+const int lVec_Sum_i = std::accumulate(gVec_Sample_vec.begin(), gVec_Sample_vec.end(), 0);  // lVec_Sum_i == 6
+std::accumulate(起始迭代器, 结束迭代器, 初始值);
+```
+
+来源：[菜鸟教程 - C++ 算法库 `<algorithm>`](https://www.runoob.com/cplusplus/cpp-libs-algorithm.html)。
 
 
 
@@ -4673,5 +5094,4 @@ string.substr(pos，len)获取子字符串，len是长度
 
 
 
-
-
+##  6.数据类型

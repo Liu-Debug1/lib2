@@ -237,40 +237,38 @@
 
 
 ## 6.LeetCode错题集+
-
-
 ### 6.1 没用过的函数/库
 
 #### 6.1.1 Heap堆
 
-- 大根堆创建：
+ **大根堆创建**：
 ```cpp
 std::priority_queue<int,std::vector<int>,std::less<int> > gQ_Deadline_C;
 std::priority_queue<int,std::vector<int>,std::less<int> > gQ_Deadline_C(Array.begin(), Array.end());
 std::priority_queue<元素类型, 底层容器类型, 比较器类型> 变量名;
 ```
 
-- 小根堆创建：
+**小根堆创建**：
 ```cpp
 std::priority_queue<int,std::vector<int>,std::greater<int> > gQ_Deadline_C;
 ```
-
-
 - 底层容器需要支持下标访问、尾部插入、尾部删除、访问元素 
 - 生成`priority_queue`对外提供`push()`、`top()`、`pop()`等接口
 
 
-- **push：先准备好一个对象，再放进容器里面**
+**push：先准备好一个对象，再放进容器里面**
 ```cpp
 minHeap_C.push(HeadNode(sum, i , j))
+//先在堆外构HeapNode，在放入堆中
 ```
->  先在堆外构HeapNode，在放入堆中
 
-- **emplace：不需要准备对象，直接将对象元素传入，内部自行构造**
+
+**emplace：不需要准备对象，直接将对象元素传入，内部自行构造**
 ```cpp
 minHeap_C.emplace(sum, i, j)
+//> 这里直接把(sum, i, j)传给堆，由堆在自己的存储空间中构造
 ```
-> 这里直接把(sum, i, j)传给堆，由堆在自己的存储空间中构造
+
 
 
 
@@ -377,11 +375,28 @@ for (int i = 0; i < n; i++) {
 ```
 其中：`stack<int> st` 是用于存储位于原来数组的==下标==，下标顺序可以是原容器==单调递增/递减==的顺序
 
-#### (4)建堆
+#### (4)堆
 
-- 建堆：数组 -> 堆， 所有非叶子节点，从后向前，向下调整
+- 建堆：数组 —> 堆， 所有非叶子节点，从后向前，向下调整
 - 插入：加入到新末尾节点，再向上比对调整
 - 删除堆顶：新根节点，向下调整
+
+  堆中各节点的位置：
+  1. 如果首位下标从`0`开始
+```text
+当前结点下标：i
+左孩子下标：  2 * i + 1
+右孩子下标：  2 * i + 2
+父结点下标：  (i - 1) / 2
+```
+  2. 如果首位下标从`1`开始
+```text
+左孩子下标：  2 * i
+右孩子下标：  2 * i + 1
+父结点下标：  i / 2
+```
+
+
 
 小根堆的方法，整理数组(按照**每个==父结点== <= 它的左右孩子**的方法整理）
 ```cpp
@@ -414,7 +429,6 @@ void heap_siftDownMin(int* pArray, size_t uSize, size_t uIndex)
             // 左孩子更小，记录左孩子下标。
             uSmallestIndex = uLeftIndex;
         }
-
         // 再检查右孩子：
         // 注意这里和“目前最小者”比较，可能是父结点，也可能已是左孩子。
         if ((uRightIndex < uSize) &&
@@ -423,7 +437,6 @@ void heap_siftDownMin(int* pArray, size_t uSize, size_t uIndex)
             // 右孩子更小，记录右孩子下标。
             uSmallestIndex = uRightIndex;
         }
-
         // 如果最小值仍是父结点，说明：
         // 父结点 <= 左孩子，且 父结点 <= 右孩子。
         // 当前结点已满足小根堆规则，调整结束。
@@ -539,11 +552,43 @@ Previous = 旧值 = M % R
 总和 ==  R + Previous 
 ```
 
-	          
+#### (7)字符串套路
 
+字符串**清晰与格式化流水线**：
+```text
+原始输入
+   ↓
+识别类型
+   ↓
+规范化 / 过滤无关字符
+   ↓
+提取关键位置或关键长度
+   ↓
+按格式重组输出
+```
 
+```cpp
+std::string formatText(const std::string& raw)
+{
+    // 1. 识别类型：邮箱、电话、命令、报文等。
+    const FormatType type = classify(raw);
+    // 2. 规范化：过滤无关字符、统一大小写、去除空白等。
+    const std::string normalized = normalize(raw, type);
+    // 3. 分析：从干净数据中获取长度、分隔位置、字段范围等。
+    const FormatInfo info = analyze(normalized, type);
+    // 4. 重组：只基于干净数据和分析结果构造输出。
+    return render(normalized, info, type);
+}
+```
 
-
+| 场景          | 做法                        | 实例                                 |
+| ----------- | ------------------------- | ---------------------------------- |
+| 根据特殊字符分类    | `find()` + `npos`         | `s.find('@') != std::string::npos` |
+| 过滤无关字符      | 遍历原串，满足条件才加入输出            | 只保留 `std::isdigit()` 为真的字符         |
+| 获取字符串尾部 N 位 | `substr(size() - N, N)`   | 保留电话最后 4 位                         |
+| 重复构造掩码      | `std::string(count, '*')` | 国家码部分的 `*`                         |
+| 原地删除一段      | `erase(pos, count)`       | 删除邮箱用户名中间字符                        |
+| 指定位置插入文本    | `insert(pos, text)`       | 插入 `"*****"`                       |
 
 
 
