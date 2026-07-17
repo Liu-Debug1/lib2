@@ -1,3 +1,3 @@
-```cpp
+```python
 <% tp.file.cursor() %>
 ```

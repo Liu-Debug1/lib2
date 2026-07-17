@@ -349,7 +349,6 @@ for (int x : nums) {
 
 **用下标记录“当前目标进度”**
 
-
 ##### (3) 单调栈
 
 **常用于解决**：
@@ -478,7 +477,6 @@ void heap_buildMin(int* pArray, size_t uSize)
 }
 ```
 
-
 > [!NOTE] 键堆时
 > - 一个节点只要有左叶，就一定是**非子叶节点** -> 最后一个非叶子节点下标为 `array.size()/2 - 1`
 > - 每一次调整，只需要针对非子叶节点进行向下调整
@@ -552,7 +550,7 @@ Previous = 旧值 = M % R
 总和 ==  R + Previous 
 ```
 
-#### (7)字符串套路
+#### (7) String：字符串套路
 
 字符串**清晰与格式化流水线**：
 ```text
@@ -589,6 +587,170 @@ std::string formatText(const std::string& raw)
 | 重复构造掩码      | `std::string(count, '*')` | 国家码部分的 `*`                         |
 | 原地删除一段      | `erase(pos, count)`       | 删除邮箱用户名中间字符                        |
 | 指定位置插入文本    | `insert(pos, text)`       | 插入 `"*****"`                       |
+#### (8) String：判断周期字符串
+
+**标准流程**：周期性字符串 / 循环位移判断：把字符串复制一遍，在中间寻找原字符串。
+
+```text
+判断周期字符串
+    ↓
+判断长度边界条件 
+    ↓
+构造 s + s
+    ↓
+从下标 1 开始寻找 s
+    ↓
+若在 [1, n - 1] 内找到，说明存在非平凡循环位移
+    ↓
+字符串由重复子串构成
+```
+
+**判断一个集合里面多次重复后，能否出现另一个子集：**
+> “字符集合不匹配”可以提前判死刑；“字符都存在”不能证明匹配成功，仍要检查周期和顺序。
+```cpp
+for (const char character : b)
+{
+    if (a.find(character) == std::string::npos)
+    {
+        return -1;
+    }
+}
+```
+
+#### (9) String：周期性序列匹配
+
+> 适用条件：一个基础单元 `unit` 会重复出现， 判断目标串 `target` 是否能在其中出现，并且求出最少的重复次数
+
+流程：
+```
+1.计算容纳 target 所需的最少 unit 数量 // minCount = ceil(target/unit)
+2.构造这minCount份 unit拼接/
+3.检查 target 是否出现
+4.再补一份unit，检查跨边界情况。
+5.仍未出现则失败
+```
+
+实例代码：[[RepeatedStringMatch.cpp]]
+
+### (10)Linklist: 遍历链表
+
+```cpp
+while ((currentNode != nullptr)&&(currentNode->next !=nullptr))
+{
+		currentNode = currentNode->next;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

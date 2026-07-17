@@ -20,6 +20,11 @@ desktop.ini
 node_modules/
 package-lock.json
 
-# Claude Code internal
+# AI 工具配置（个人配置，不进入公开仓库）
 .agents/
 .claudian/
+.claude/
+.codex/
+
+# 第三方源码（体积大，非学习笔记）
+嵌入式/ROS系统/Rosmaster源码/

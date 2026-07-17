@@ -6,6 +6,11 @@ class Solution
 {
 
 public:
+    /*
+     * 功能: 按 k 个有效字符一组重新格式化许可证密钥。
+     * 参数: s 为包含字母、数字和破折号的原始密钥；k 为每组字符数量，取值大于 0。
+     * 返回: 去除原破折号并转换为大写后的格式化字符串。
+     */
     std::string licenseKeyFormatting(std::string s, int k)
     {
         std::size_t groupCount(0U);
@@ -13,7 +18,7 @@ public:
         std::string output{};
         const std::size_t groupSize = static_cast<std::size_t>(k);
 
-        //1.单个字符压入栈中，破折号不保存, 小写记录为大写
+        // 清理原分隔符并将有效字符转换为大写，作为后续分组的字符栈。
         for (const char char_: s)
         {
             if (char_ != '-')
@@ -22,19 +27,20 @@ public:
             }
         }
         
-        //2.按照 K 个字符的要求，从栈顶弹出，满K个加入一个破折号，知道栈为空
+        // 从尾部按 k 个字符分组，首组不足 k 个字符的情况会在反转后自然形成。
         while (!contain.empty())
         {
             output.push_back(contain.back());
             contain.pop_back();
             groupCount++;
 
-            if(groupCount == groupSize && contain.empty())
+            if(groupCount == groupSize && !contain.empty())
             {
                 groupCount = 0U;
                 output.push_back('-');
             }
         }
+        // 尾部弹出会使字符顺序反转，最后恢复从左到右的显示顺序。
         std::reverse(output.begin(),output.end());
         return output;
     }

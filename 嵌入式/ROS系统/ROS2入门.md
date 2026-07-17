@@ -38,8 +38,6 @@ sudo apt-get install curl && curl http://fishros.com/tools/install/ros-foxy | ba
 lsb_release -a
 ```
 
-> [!warning]
-> **ROS2 Foxy 对应 Ubuntu 20.04；ROS2 Humble 对应 Ubuntu 22.04。** 不要在 Ubuntu 22.04 上用 Foxy 的一键安装指令，也不要在 Ubuntu 20.04 上硬装 Humble。
 
 ## 二、ROS2 基础
 
@@ -183,11 +181,11 @@ ROS2 命令行工具源码：
 
    ROS2 中，功能包会根据 ==编译方式== 的不同分为三种类型：
 
-   | 功能包类型 | 适用场景 | 说明 |
-   | ---------- | -------- | ---- |
-   | `ament_python` | Python 程序 | 适合写 Python 节点 |
-   | `cmake` | C++ 程序 | 传统 CMake 构建方式 |
-   | `ament_cmake` | C++ 程序 | `cmake` 的增强版，更常用于 ROS2 C++ 功能包 |
+| 功能包类型 | 适用场景 | 说明 |
+| ---------- | -------- | ---- |
+| `ament_python` | Python 程序 | 适合写 Python 节点 |
+| `cmake` | C++ 程序 | 传统 CMake 构建方式 |
+| `ament_cmake` | C++ 程序 | `cmake` 的增强版，更常用于 ROS2 C++ 功能包 |
 
 3. **功能包和节点的运行关系**
 
@@ -334,11 +332,8 @@ ROS2 命令行工具源码：
    ROS2：colcon 负责构建功能包
    ```
 
-   可以简单记成：**Colcon 相当于 ROS1 中的 catkin 工具**。没有学过 ROS1 也没关系，只需要知道它是 ROS2 里用于构建功能包的工具。
+   可以简单记成：**Colcon 相当于 ROS1 中的 catkin 工具**
 
-3. **为什么要单独学习 Colcon**
-
-   ROS2 默认不一定已经安装 `colcon`，所以在学习功能包编译之前，需要先确认并安装它。
 
 #### 3.2 安装colcon
 
@@ -500,8 +495,7 @@ int main(int argc, char **argv)
    )
    ```
 
-> [!warning]
-> `install(TARGETS ...)` 中的 **`TARGETS` 不能拼错**。如果写成 `TARGERTS`，编译时会报错：`install does not recognize sub-command TARGERTS`。
+
 
 
 
@@ -667,10 +661,7 @@ int main(int argc, char **argv)
    - 哪些节点正在运行。
    - 节点之间通过哪些话题通信。
    - 发布者和订阅者之间的数据关系。
-
-> [!NOTE]
-> 学 ROS2 话题通信时，`rqt_graph` 很适合用来检查“节点是否真的连上了话题”。
-
+   - `rqt_graph` 很适合用来检查“节点是否真的连上了话题”。
 
 ##### 2. ROS2话题相关命令行（CLI）工具
 1. **查看 `ros2 topic` 帮助**
@@ -688,7 +679,7 @@ int main(int argc, char **argv)
 | `info`    | 查看某个话题的发布者和订阅者数量    |
 | `pub`     | 手动向某个话题发布数据         |
 | `type`    | 查看某个话题的消息类型         |
-| `hz`      | 查看话题发布频率            |
+| `hz`      | 查看话题发布频率？。          |
 | `bw`      | 查看话题占用带宽            |
 
 2. **查看当前活动的话题列表**
@@ -727,7 +718,7 @@ int main(int argc, char **argv)
 
    已知 `/chatter` 的消息类型是 `std_msgs/msg/String`，可以继续查看这个消息类型内部有什么字段：
    ```shell
-   ros2 interface show std_msgs/msg/String
+   ros2 interface show 消息类型
    ```
 
    对于 `std_msgs/msg/String`，核心字段就是字符串数据：
@@ -974,7 +965,7 @@ int main(int argc, char **argv)
    ```text
    Python 节点 ── 使用同一种接口 ── C++ 节点
    ```
-	
+
 3. **接口对机器人开发的意义**
    机器人系统里会使用大量传感器和执行器，例如激光雷达、相机、IMU、底盘等。不同厂家的设备实现方式不同，如果没有统一接口，每换一个设备都可能需要重新适配程序。
    例如激光雷达数据通常统一为：

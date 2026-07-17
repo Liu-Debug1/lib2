@@ -218,7 +218,7 @@ if (p == NULL) return 0;  // 先判断，再解引用
 
 ### 6.1 问题复现
 
-在 [[自动车窗防夹模块]] 的 `AntiPinch_Process()` 中，`case AP_BLANKING:` 末尾缺少兜底返回，导致消隐期内执行流穿透到检测逻辑：
+在 自动车窗防夹模块 的 `AntiPinch_Process()` 中，`case AP_BLANKING:` 末尾缺少兜底返回，导致消隐期内执行流穿透到检测逻辑：
 
 ```c
 case AP_BLANKING:

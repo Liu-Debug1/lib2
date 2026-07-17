@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/桌面/Ob_Learning",
-      "program": "d:/桌面/Ob_Learning/build/Debug/outDebug",
+      "cwd": "d:/桌面/Ob_Learning/嵌入式/C&C++/Leetcode",
+      "program": "d:/桌面/Ob_Learning/嵌入式/C&C++/Leetcode/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
