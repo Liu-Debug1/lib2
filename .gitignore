@@ -15,6 +15,9 @@ desktop.ini
 *.bak
 *.ps1
 *.bat
+temp_patch.txt
+skills-lock.json
+__pycache__/
 
 # Node / JS dependencies
 node_modules/
